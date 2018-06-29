@@ -6,10 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+    "start": "node server.js",
     "lint": "eslint --ext .js,.vue src",
-    "build": "node build/build.js",
-    "deploy": "git subtree push -- prefix dist heroku master"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.11",
