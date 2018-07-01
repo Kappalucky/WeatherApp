@@ -16,21 +16,35 @@
 
       <!-- Slides with custom text -->
       <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-        <h1>Hello world!</h1>
+        <h1>Hello {{ cityInput }}</h1>
       </b-carousel-slide>
-
     </b-carousel>
+    <div class="nav-links">
+      <router-link v-bind:to="{ name: 'Home' }">Home</router-link>
+      <router-link v-bind:to="{ name: 'Locations' }">Locations</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
   name: 'City',
-  computed: mapState([
-    'user',
-  ]),
+  data () {
+    return {
+      slide: 0,
+      sliding: null,
+      id: this.$route.params.id,
+      cityData: [],
+    };
+  },
+  methods: {
+    onSlideStart (slide) {
+      this.sliding = true
+    },
+    onSlideEnd (slide) {
+      this.sliding = false
+    }
+  }
 };
 </script>
 

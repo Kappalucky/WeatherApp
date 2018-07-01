@@ -1,15 +1,16 @@
 <template>
   <div class="dashboard">
-    <b-container>
+    <b-container id="select-location">
       <b-row>
         <b-col>
           <!--<graphs></graphs>-->
-          <img src="@/assets/logo.png">
           <!-- input tag to enter city name -->
           <div class="form-group">
             <input type="text" placeholder="Enter a city/town name..." v-model="cityInput" class="form-control"/>
-            <button @click="addCity" type="submit">Get Weather</button>
-            <button @click="loadData" type="submit">Load Weather</button>
+              <div>
+                <b-button variant="outline-success" @click="addCity" type="submit">Get Weather</b-button>
+                <b-button variant="outline-success" @click="loadData" type="submit">Load Weather</b-button>
+              </div>
           </div>
           <h1>{{ cityInput }}</h1>
           <div>
@@ -41,11 +42,6 @@ export default {
       cityInput: '',
     };
   },
-  mounted () {
-    axios
-      .get('http://api.openweathermap.org/data/2.5/forecast?id=524901&units=metric&APPID=6e6d2d2ccd4f746698bca6b482d1507f')
-      .then(response => (this.info = response.data.bpi))
-  },
   computed: {
     ...mapState([
       'userData',
@@ -63,9 +59,18 @@ export default {
       this.ADD_USER_INPUT(this.cityInput);
       this.cityInput = '';
     },
+    addCityId: function() {
+      this.ADD_CITY_ID(this.cityInput);
+    },
     loadData: function() {
       this.LOAD_CITY_WEATHER();
-    }
+    },
+    findCityId: function(cityInput) {
+      var ref = db.ref('cities');
+      ref.orderByChild('name').equalTo(cityInput).on('child_added', function(snapshot) {
+        console.log(snapshot.key);
+      });
+    },
   },
 };
 </script>
@@ -89,10 +94,17 @@ a {
   color: #42b983;
 }
 .dashboard {
+  height: 100vh;
+  display: flex;
+  align-items: center;
   text-align: center;
+}
+#select-location {
   display: flex;
   justify-content: center;
-  align-content: center;
-  align-items: center;
+  height: 50vh;
+}
+input {
+  border: 1px solid grey;
 }
 </style>

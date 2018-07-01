@@ -8,11 +8,33 @@
 <script>
 import AppHeader from '@/components/AppHeader';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import Firebase from 'firebase';
+
+let config = {
+    apiKey: "AIzaSyCkim2LV8O1HBvv-pQHlXY91SjC6vvhxDA",
+    authDomain: "sweather-app.firebaseapp.com",
+    databaseURL: "https://sweather-app.firebaseio.com",
+    projectId: "sweather-app",
+    storageBucket: "sweather-app.appspot.com",
+    messagingSenderId: "308411867996",
+  };
+  
+let app = Firebase.initializeApp(config);
+let db = app.database();
+let cityRef = db.ref('cities');
 
 export default {
   name: 'App',
+  firebase: {
+    cities: cityRef,
+  },
   components: {
     AppHeader,
+  },
+  data () {
+    return {
+      requestCity: 'requested_city',
+    };
   },
 };
 </script>
@@ -24,5 +46,13 @@ export default {
 
 body {
   background-color: #DEEFFF;
+}
+#header {
+  top: 0;
+  left: 0;
+}
+#footer {
+  bottom: 0;
+  left: 0;
 }
 </style>

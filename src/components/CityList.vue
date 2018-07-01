@@ -13,7 +13,7 @@ export default {
     'user',
   ]),
   data() {
-      return {
+    /*  return {
           fields: [
               {
                   key: 'Temp',
@@ -31,7 +31,7 @@ export default {
                   label: 'Country',
                 },
             ],
-        }
+        } */
     },
 };
 </script>
