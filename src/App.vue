@@ -46,6 +46,8 @@ export default {
 
 body {
   background-color: #DEEFFF;
+  background-color: rgba(255, 255, 255, 1);
+  height: 100vh;
 }
 #header {
   top: 0;

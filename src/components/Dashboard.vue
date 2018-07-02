@@ -32,8 +32,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-import axios from 'axios';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'Dashboard',

@@ -92,12 +92,6 @@ export default {
     };
   },
   methods: {
-    onSlideStart(slide) {
-      this.sliding = true;
-    },
-    onSlideEnd(slide) {
-      this.sliding = false;
-    },
     async getForecast() {
       const response = await WeatherService
         .getForecast({ city: this.cityData.name, id: this.id });
