@@ -5,27 +5,28 @@
             <b-row align-v="center">
                 <b-col align-self="center">
                     <div class="main-search">
-                     <b-form class="form-group" @submit.prevent="getWeatherNow">
+                     <div class="form-group">
                         <h1>Search for city or use current location</h1>
                         <p>PS: U.S. Users can use zipcodes <img id="cool-shades" src='https://emojipedia-us.s3.amazonaws.com/thumbs/160/whatsapp/116/smiling-face-with-sunglasses_1f60e.png'/></p>
                         <b-form-group>
-                           <b-form-input type="text" name="cityInput"
+                           <b-form-input type="text" name="cityName"
                             placeholder="Enter a city/town name..."
                             v-on:keydown.enter="getWeatherNow"
                             v-model="cityName"
                             class="form-control"/>
                         </b-form-group>
-                        <b-form-group>
+                        <div>
                           <b-button variant="outline-success"
                             @click="getCurrentWeather" v-if="locationStatus"
                             type="submit" id="find-location">Current Location</b-button>
                             <b-button variant="outline-success"
                             @click="getWeatherNow"
-                            type="submit">Get Weather</b-button>
-                        </b-form-group>
-                      </b-form>
+                            type="submit" id="get-weather">Get Weather</b-button>
+                        </div>
+                      </div>
                     </div>
-                    <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+                    <transition enter-active-class="animated bounceIn"
+                    leave-active-class="animated bounceOut">
                       <template v-if="hasData">
                         <div class="card">
                           <div class="card-body">
@@ -41,21 +42,28 @@
                                 <b-col>
                                   <div class="temp-min-max">
                                     <span id="headline">High/Low</span>
-                                    <small class="card-text" id="temp-high">{{ weatherDataNow.main.temp_max }}°<span>F</span></small>
-                                    <small class="card-text" id="temp-low">{{ weatherDataNow.main.temp_min }}°<span>F</span></small>
+                                    <small class="card-text"
+                                    id="temp-high">{{ weatherDataNow.main.temp_max }}°
+                                      <span>F</span></small>
+                                    <small class="card-text"
+                                    id="temp-low">{{ weatherDataNow.main.temp_min }}°
+                                      <span>F</span></small>
                                   </div>
                                 </b-col>
                                 <b-col>
                                   <div class="wind-data">
                                     <span id="headline">Wind</span>
-                                    <small class="card-text" id="wind-speed">Speeds <span>{{ weatherDataNow.wind.speed }}</span></small>
-                                    <small class="card-text" id="wind-direct">direction<span>{{ weatherDataNow.wind.deg }}</span></small>
+                                    <small class="card-text" id="wind-speed">Speeds <span>
+                                      {{ weatherDataNow.wind.speed }}</span></small>
+                                    <small class="card-text" id="wind-direct">direction<span>
+                                      {{ weatherDataNow.wind.deg }}</span></small>
                                   </div>
                                 </b-col>
                               </b-row>
                               <b-row>
                                 <div class="description">
-                                  <p class="card-text">Currently {{ weatherDataNow.weather.description }}.</p>
+                                  <p class="card-text">Currently
+                                     {{ weatherDataNow.weather.description }}.</p>
                                   <p>With a {{ weatherDataNow.rain }} chance of rain</p>
                                   <p class="card-text">Looking like a beautiful day</p>
                                   <!--  <span>If chance of rain < 40%
@@ -110,7 +118,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      cityInput: '',
+      cityName: '',
       weatherDataNow: [],
       weatherForecast: [],
       error: '',
@@ -151,15 +159,15 @@ export default {
       }, 3000);
     },
     async getWeatherNow() {
-      if (this.cityInput === '') {
+      if (this.cityName === '') {
         this.weatherDataNow = '';
         // this.inputError = true;
-        this.error = 'Please enter a word.';
         this.hasData = false;
+        this.error = 'Please enter a word.';
       }
 
       try {
-        const response = await WeatherService.getWeatherNow({ city: this.cityInput });
+        const response = await WeatherService.getWeatherNow({ city: this.cityName });
         this.weatherDataNow = response.data;
         this.$store.commit('addCity', { id: this.weatherDataNow.id, data: this.weatherDataNow });
         this.hasData = true;
@@ -177,6 +185,7 @@ export default {
     async getCurrentWeather() {
       if (!window.navigator.geolocation) {
         this.locationStatus = false;
+        this.hasData = false;
       } else {
         const newPosition = await new Promise((resolve, reject) => {
           window.navigator.geolocation.getCurrentPosition(
