@@ -9,4 +9,7 @@ export default {
   getForecast(params) {
     return Api().get(`forecast?id=${params.id}&APPID=${apiKey}`);
   },
+  getCurrentWeather(params) {
+    return Api().get(`weather?lat=${params.lat}&lon=${params.lon}&APPID=${apiKey}`);
+  },
 };

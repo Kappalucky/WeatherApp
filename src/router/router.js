@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Dashboard from '@/components/Dashboard';
 import Home from '@/components/Home';
 // import Login from '@/components/Login';
 import Locations from '@/components/Locations';
@@ -16,17 +15,12 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
-    },
-    {
       path: '/locations',
       name: 'Locations',
       component: Locations,
     },
     {
-      path: '/locations/city/:id',
+      path: 'city/:id',
       name: 'City',
       component: City,
     },

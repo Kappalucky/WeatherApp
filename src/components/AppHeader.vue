@@ -1,8 +1,8 @@
 <template>
-  <div id="header">
+  <div id="app-header">
     <b-navbar toggleable="md">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-    <b-navbar-brand><router-link to="/">Dashboard</router-link></b-navbar-brand>
+    <b-navbar-brand><router-link to="/">Home</router-link></b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
         <b-nav-item to="/about">About</b-nav-item>
@@ -34,7 +34,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'header',
+  name: 'AppHeader',
   computed: mapState([
     'user',
   ]),
@@ -44,6 +44,11 @@ export default {
 <style scoped>
 nav {
     background-color: #8A9EB2;
+    position: fixed;
+    right: 0;
+    top: 0;
+    left: 0;
+    z-index: 1030;
 }
 
 nav a {
