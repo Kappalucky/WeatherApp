@@ -9,7 +9,9 @@
               <div class="data list">
                 <ul>
                   <li v-for="(info, index) in weatherData" :key="index">
-                    <router-link v-bind:to="{ name: 'City', params: { id: city, city: cityInput } }">{{ info }}</router-link>
+                    <router-link v-bind:to="{ name: 'City',
+                    params: { id: city, city: cityInput } }">{{ info }}
+                    </router-link>
                   </li>
                 </ul>
               </div>
@@ -23,7 +25,7 @@
 <script>
 export default {
   name: 'Locations',
-  data () {
+  data() {
     return {
       info: ['Miami', '93F', 'Florida', 'Rain'],
     };

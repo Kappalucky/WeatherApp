@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions, } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -55,20 +55,19 @@ export default {
     ...mapActions([
       'LOAD_CITY_WEATHER',
     ]),
-    addCity: function() {
+    addCity() {
       this.ADD_USER_INPUT(this.cityInput);
       this.cityInput = '';
     },
-    addCityId: function() {
+    addCityId() {
       this.ADD_CITY_ID(this.cityInput);
     },
-    loadData: function() {
+    loadData() {
       this.LOAD_CITY_WEATHER();
     },
-    findCityId: function(cityInput) {
-      var ref = db.ref('cities');
-      ref.orderByChild('name').equalTo(cityInput).on('child_added', function(snapshot) {
-        console.log(snapshot.key);
+    findCityId(cityInput) {
+      const ref = db.ref('cities');
+      ref.orderByChild('name').equalTo(cityInput).on('child_added', (snapshot) => {
       });
     },
   },

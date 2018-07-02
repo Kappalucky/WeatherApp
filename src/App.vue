@@ -10,18 +10,18 @@ import AppHeader from '@/components/AppHeader';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import Firebase from 'firebase';
 
-let config = {
-    apiKey: "AIzaSyCkim2LV8O1HBvv-pQHlXY91SjC6vvhxDA",
-    authDomain: "sweather-app.firebaseapp.com",
-    databaseURL: "https://sweather-app.firebaseio.com",
-    projectId: "sweather-app",
-    storageBucket: "sweather-app.appspot.com",
-    messagingSenderId: "308411867996",
-  };
-  
-let app = Firebase.initializeApp(config);
-let db = app.database();
-let cityRef = db.ref('cities');
+const config = {
+  apiKey: 'AIzaSyCkim2LV8O1HBvv-pQHlXY91SjC6vvhxDA',
+  authDomain: 'sweather-app.firebaseapp.com',
+  databaseURL: 'https://sweather-app.firebaseio.com',
+  projectId: 'sweather-app',
+  storageBucket: 'sweather-app.appspot.com',
+  messagingSenderId: '308411867996',
+};
+
+const app = Firebase.initializeApp(config);
+const db = app.database();
+const cityRef = db.ref('cities');
 
 export default {
   name: 'App',
@@ -31,7 +31,7 @@ export default {
   components: {
     AppHeader,
   },
-  data () {
+  data() {
     return {
       requestCity: 'requested_city',
     };
