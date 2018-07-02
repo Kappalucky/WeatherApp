@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AppHeader></AppHeader>
+    <!--<AppHeader></AppHeader>-->
     <router-view/>
   </div>
 </template>
@@ -38,11 +38,21 @@ export default {
 @import './assets/css/animate.css';
 @import './assets/css/bootstrap.css';
 @import "http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import 'https://fonts.googleapis.com/css?family=Arima+Madurai:100|Nixie+One|Scope+One';
 
 body {
   background-color: #DEEFFF;
   background-color: rgba(255, 255, 255, 1);
   height: 100vh;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nixie One', serif;
+}
+p, ul, li {
+  font-family: 'Scope One', cursive;
+}
+span, em, small {
+  font-family: 'Arima Madurai', cursive;
 }
 #footer {
   bottom: 0;
