@@ -7,7 +7,6 @@ export default {
     return Api().get(`weather?q=${params.city}&APPID=${apiKey}`);
   },
   getForecast(params) {
-    // return Api().get(`id=${params}&APPID=${apiKey}`);
-    return Api().get(`forcast?q=${params.city}&APPID=${apiKey}`);
+    return Api().get(`forecast?id=${params.id}&APPID=${apiKey}`);
   },
 };

@@ -4,15 +4,23 @@
             <b-row>
                 <b-col>
                     <div class="form-group">
-                        <input type="text" placeholder="Enter a city/town name..." v-on:keydown.enter="getWeatherNow" v-model="cityInput" class="form-control"/>
+                        <input type="text" placeholder="Enter a city/town name..."
+                        v-on:keydown.enter="getWeatherNow"
+                        v-model="cityInput"
+                        class="form-control"/>
                         <div>
-                            <b-button variant="outline-success" @click="getWeatherNow" type="submit">Get Weather</b-button>
+                            <b-button variant="outline-success"
+                            @click="getWeatherNow"
+                            type="submit">Get Weather</b-button>
                         </div>
                     </div>
                     <div class="weather-description">
                         {{ weatherInfo.weather || error }}
                         <div class="more-details" v-if="weatherInfo.weather">
-                            <router-link v-bind:to="{ name: 'City', params: { id: weatherInfo.id, data:weatherDataNow } }">More details</router-link>
+                            <router-link v-bind:to="{ name: 'City',
+                            params: { id: weatherInfo.id, name: cityInput, data:weatherDataNow } }">
+                            More details
+                            </router-link>
                             <router-link v-bind:to="{ name: 'Locations' }">City List</router-link>
                         </div>
                     </div>
@@ -36,35 +44,31 @@ export default {
     };
   },
   computed: {
-      weatherInfo () {
-        if (this.weatherDataNow.weather) {
+    weatherInfo() {
+      if (this.weatherDataNow.weather) {
         return this.weatherDataNow;
-        }
-        return '';
-      },
+      }
+      return '';
+    },
   },
   methods: {
-      async getWeatherNow () {
-          if (this.cityInput === '') {
-            this.weatherDataNow  = '';
-            this.error = 'Please enter a word.';
-            return false;
-          }
-          else {
-            try {
-            const response = await WeatherService.getWeatherNow({ city: this.cityInput });
-            this.weatherDataNow = response.data;
-          } catch (error) {
-              console.error(error);
-              this.error = 'The city name you entered could not be found.';
-            }
-          }
-      },
-      async getForecast () {
-          const response = await WeatherService.getForecast({ city: this.cityInput });
-          console.log(response.data);
-          this.weatherForecast = response.data;
-      },
+    async getWeatherNow() {
+      if (this.cityInput === '') {
+        this.weatherDataNow = '';
+        this.error = 'Please enter a word.';
+      }
+
+      try {
+        const response = await WeatherService.getWeatherNow({ city: this.cityInput });
+        this.weatherDataNow = response.data;
+      } catch (error) {
+        this.error = 'The city name you entered could not be found.';
+      }
+    },
+    async getForecast() {
+      const response = await WeatherService.getForecast({ city: this.weatherDataNow.id });
+      this.weatherForecast = response.data;
+    },
   },
 };
 </script>

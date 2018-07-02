@@ -5,13 +5,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 export default {
-  name: 'City',
-  computed: mapState([
-    'user',
-  ]),
+  name: 'CityList',
   data() {
     /*  return {
           fields: [
@@ -32,7 +29,7 @@ export default {
                 },
             ],
         } */
-    },
+  },
 };
 </script>
 
