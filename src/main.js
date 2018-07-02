@@ -1,12 +1,14 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import VueFire from 'vuefire';
 import BootstrapVue from 'bootstrap-vue';
+import moment from 'moment';
 import App from './App';
-import router from './router';
+import router from './router/router';
 import store from './store/store';
 
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue, moment, VueFire);
 
 Vue.config.productionTip = false;
 
