@@ -8,7 +8,7 @@
 <script>
 import AppHeader from '@/components/AppHeader';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import Firebase from 'firebase';
+/* import Firebase from 'firebase';
 
 const config = {
   apiKey: 'AIzaSyCkim2LV8O1HBvv-pQHlXY91SjC6vvhxDA',
@@ -21,20 +21,15 @@ const config = {
 
 const app = Firebase.initializeApp(config);
 const db = app.database();
-const cityRef = db.ref('cities');
+const cityRef = db.ref('cities'); */
 
 export default {
   name: 'App',
-  firebase: {
+  /* firebase: {
     cities: cityRef,
-  },
+  }, */
   components: {
     AppHeader,
-  },
-  data() {
-    return {
-      requestCity: 'requested_city',
-    };
   },
 };
 </script>
@@ -48,10 +43,6 @@ body {
   background-color: #DEEFFF;
   background-color: rgba(255, 255, 255, 1);
   height: 100vh;
-}
-#header {
-  top: 0;
-  left: 0;
 }
 #footer {
   bottom: 0;

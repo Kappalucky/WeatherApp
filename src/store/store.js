@@ -1,12 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import axios from 'axios';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // cityData: [],
     cities: {
       cityId: '',
       weatherData: [],
@@ -18,7 +16,7 @@ export default new Vuex.Store({
   },
   mutations: {
     addCity(state, payload) {
-      state.cities.weatherData.id = payload.id;
+      state.cities.cityId = payload.id;
       state.cities.weatherData.push(payload.data);
     },
     addCityData(state, payload) {

@@ -8,11 +8,11 @@
               <h2>Current City Data</h2>
               <div class="data list">
                 <ul>
-                  <li v-for="(info, index) in weatherData" :key="index">
+                  <!--<li v-for="(info, index) in weatherData" :key="index">
                     <router-link v-bind:to="{ name: 'City',
                     params: { id: city, city: cityInput } }">{{ info }}
                     </router-link>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
           </div>
