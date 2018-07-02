@@ -9,6 +9,9 @@
                         v-model="cityInput"
                         class="form-control"/>
                         <div>
+                          <b-button variant="outline-success"
+                            @click="getCurrentWeather" v-if="locationStatus"
+                            type="submit" id="find-location">Current Weather</b-button>
                             <b-button variant="outline-success"
                             @click="getWeatherNow"
                             type="submit">Get Weather</b-button>
@@ -41,6 +44,7 @@ export default {
       weatherDataNow: [],
       weatherForecast: [],
       error: '',
+      locationStatus: true,
     };
   },
   computed: {
@@ -68,6 +72,28 @@ export default {
     async getForecast() {
       const response = await WeatherService.getForecast({ city: this.weatherDataNow.id });
       this.weatherForecast = response.data;
+    },
+    async getCurrentWeather() {
+      if (!window.navigator.geolocation) {
+        this.locationStatus = false;
+      } else {
+        const newPosition = await new Promise((resolve, reject) => {
+          window.navigator.geolocation.getCurrentPosition(
+            (position) => {
+              resolve({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              });
+            }, () => {
+              reject('no position available');
+            },
+          );
+        });
+
+        const response = await WeatherService
+          .getCurrentWeather({ lat: newPosition.latitude, lon: newPosition.longitude });
+        this.weatherDataNow = response.data;
+      }
     },
   },
 };
