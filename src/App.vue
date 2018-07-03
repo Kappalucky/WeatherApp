@@ -9,7 +9,7 @@
 import AppHeader from '@/components/AppHeader';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 /* import Firebase from 'firebase';
-
+ Firebase database will be used to validate city name information
 const config = {
   apiKey: 'AIzaSyCkim2LV8O1HBvv-pQHlXY91SjC6vvhxDA',
   authDomain: 'sweather-app.firebaseapp.com',
