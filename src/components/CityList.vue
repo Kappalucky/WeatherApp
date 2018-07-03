@@ -9,27 +9,7 @@
 
 export default {
   name: 'CityList',
-  data() {
-    /*  return {
-          fields: [
-              {
-                  key: 'Temp',
-                  sortable: true,
-              },
-              {
-                  key: '',
-                  sortable: false,
-                  _rowVariant: 'danger', // Use for heat
-              },
-              city: {
-                  key: 'address.city',
-              },
-              'address.country': {
-                  label: 'Country',
-                },
-            ],
-        } */
-  },
+
 };
 </script>
 

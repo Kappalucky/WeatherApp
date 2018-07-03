@@ -1,15 +1,16 @@
-import Api from '@/services/Api';
+import WeatherAPI from '@/services/WeatherAPI';
 
 const apiKey = '6e6d2d2ccd4f746698bca6b482d1507f';
+
 export default {
   getWeatherNow(params) {
     // return Api().get(`id=${params}&APPID=${apiKey}`);
-    return Api().get(`weather?q=${params.city}&APPID=${apiKey}`);
+    return WeatherAPI().get(`weather?q=${params.city}&APPID=${apiKey}`);
   },
   getForecast(params) {
-    return Api().get(`forecast?id=${params.id}&APPID=${apiKey}`);
+    return WeatherAPI().get(`forecast?id=${params.id}&APPID=${apiKey}`);
   },
   getCurrentWeather(params) {
-    return Api().get(`weather?lat=${params.lat}&lon=${params.lon}&APPID=${apiKey}`);
+    return WeatherAPI().get(`weather?lat=${params.lat}&lon=${params.lon}&APPID=${apiKey}`);
   },
 };

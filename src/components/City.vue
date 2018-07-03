@@ -98,6 +98,9 @@ export default {
       this.forecastData = response.data;
     },
   },
+  beforeMount() {
+    this.getForecast();
+  },
 };
 </script>
 
