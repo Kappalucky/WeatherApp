@@ -27,7 +27,11 @@ export default {
   name: 'Locations',
   data() {
     return {
-      info: ['Miami', '93F', 'Florida', 'Rain'],
+      sliding: null,
+      id: this.$route.params.id,
+      cityName: this.cityData.name,
+      cityData: this.$route.params.data,
+      forecastData: this.$route.params.forecastData,
     };
   },
 };

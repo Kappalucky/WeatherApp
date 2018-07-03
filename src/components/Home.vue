@@ -1,5 +1,5 @@
 <template>
-      <div class="home">
+      <div class="home" :style="{ backgroundImage: `url('${backgroundLink}')` }">
         <div class="shaded-cover">
           <b-container id="select-location">
             <b-row align-v="center">
@@ -10,18 +10,18 @@
                         <p>PS: U.S. Users can use zipcodes <img id="cool-shades" src='https://emojipedia-us.s3.amazonaws.com/thumbs/160/whatsapp/116/smiling-face-with-sunglasses_1f60e.png'/></p>
                         <b-form-group>
                            <b-form-input type="text" name="cityName"
-                            placeholder="Enter a city/town name..."
-                            v-on:keydown.enter="getWeatherNow"
+                            placeholder="Enter a city or zipcode..."
+                            @keydown.enter.native="getWeatherNow"
                             v-model="cityName"
                             class="form-control"/>
                         </b-form-group>
-                        <div>
+                        <div class="weather-check">
                           <b-button variant="outline-success"
                             @click="getCurrentWeather" v-if="locationStatus"
                             type="submit" id="find-location">Current Location</b-button>
                             <b-button variant="outline-success"
                             @click="getWeatherNow"
-                            type="submit" id="get-weather">Get Weather</b-button>
+                            type="submit" id="get-weather">Search Location</b-button>
                         </div>
                       </div>
                     </div>
@@ -34,7 +34,8 @@
                               <h4 class="card-title">{{ weatherDataNow.name }}</h4>
                             </div>
                             <div class="current-temp">
-                              <img v-bind:src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'" width="200"/>
+                              <img v-bind:src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'" width="150"/>
+                              <!--<i :class="'owf owf-' + weatherDataNow.cod"></i>-->
                               <p class="card-text">{{ weatherDataNow.main.temp }}°<span>K</span></p>
                             </div>
                             <b-container>
@@ -63,7 +64,7 @@
                               <b-row>
                                 <div class="description">
                                   <p class="card-text">Currently
-                                     {{ weatherDataNow.weather.description }}.</p>
+                                     {{ weatherDataNow.weather[0].description }}.</p>
                                   <p>With a {{ weatherDataNow.rain }} chance of rain</p>
                                   <p class="card-text">Looking like a beautiful day</p>
                                   <!--  <span>If chance of rain < 40%
@@ -80,29 +81,17 @@
                             </b-container>
                             <div class="forecast-btn">
                               <b-button :to="{ name: 'City',
-                          params: { id: weatherInfo.id, data:weatherDataNow }}">Details</b-button>
+                          params: { id: weatherInfo.id, data:weatherDataNow }}">7 Day</b-button>
+                              <b-button :to="{ name: 'Locations',
+                              params: { id: weatherInfo.id, data:weatherDataNow,
+                              forcast:weatherForecast }}">Full details</b-button>
                             </div>
                           </div>
                         </div>
                       </template>
-                      <template v-else>
-                        <p>no data</p>
-                      </template>
+                        <!--Errors will be placed in template below
+                        <template v-else><p>no data</p></template>-->
                     </transition>
-                   <!-- <transition-group enter-active-class="animated bounceIn"
-                     leave-active-class="animated bounceOut">
-                      <div class="weather-detail"
-                      v-for="(value, key) in weatherDataNow.cities" :key="key">
-                        {{ value }}
-                        <div class="more-details" v-if="weatherInfo.weather">
-                          <router-link v-bind:to="{ name: 'City',
-                          params: { id: weatherInfo.id, data:weatherDataNow } }">
-                          More details
-                          </router-link>
-                          <router-link v-bind:to="{ name: 'Locations' }">City List</router-link>
-                        </div>
-                      </div>
-                    </transition-group> -->
                 </b-col>
             </b-row>
         </b-container>
@@ -111,8 +100,9 @@
 </template>
 
 <script>
-import WeatherService from '@/services/WeatherService';
 import { mapState, mapMutations } from 'vuex';
+import WeatherService from '../services/WeatherService';
+import ImageService from '../services/ImageService';
 
 export default {
   name: 'Home',
@@ -126,6 +116,7 @@ export default {
       inputError: false,
       locationError: false,
       hasData: false,
+      backgroundLink: '',
     };
   },
   computed: {
@@ -158,8 +149,9 @@ export default {
         this.locationError = false;
       }, 3000);
     },
+    // Get todays weather by searching for location
     async getWeatherNow() {
-      if (this.cityName === '') {
+      if (this.cityName === '' || this.cityName < 2) {
         this.weatherDataNow = '';
         // this.inputError = true;
         this.hasData = false;
@@ -171,17 +163,18 @@ export default {
         this.weatherDataNow = response.data;
         this.$store.commit('addCity', { id: this.weatherDataNow.id, data: this.weatherDataNow });
         this.hasData = true;
-        // this.addCityData({ id: this.weatherDataNow.id, data: this.weatherDataNow });
+        this.addCityData({ id: this.weatherDataNow.id, data: this.weatherDataNow });
       } catch (error) {
-        // this.locationError = true;
-        this.hasData = false;
+        this.locationError = true;
         this.error = 'The city name you entered could not be found.';
       }
     },
+    // call for 7 day forecast of location selected
     async getForecast() {
       const response = await WeatherService.getForecast({ city: this.weatherDataNow.id });
       this.weatherForecast = response.data;
     },
+    // Todays weather by geolocation call
     async getCurrentWeather() {
       if (!window.navigator.geolocation) {
         this.locationStatus = false;
@@ -207,6 +200,14 @@ export default {
         this.hasData = true;
       }
     },
+    // Image Background
+    async getRandom() {
+      const response = await ImageService.getRandom();
+      this.backgroundLink = response.data.urls.full;
+    },
+  },
+  beforeMount() {
+    this.getRandom();
   },
 };
 </script>
@@ -249,15 +250,12 @@ li {
   margin: 0 10px;
 }
 
-a {
-  color: #42b983;
-}
 .home {
   height: 100vh;
   display: flex;
   align-items: center;
   text-align: center;
-  background-image: url(https://i.pinimg.com/originals/5b/44/f5/5b44f573214eaef443325cc014e24f56.jpg);
+  background-image: url(https://images.unsplash.com/photo-1506444187582-b55b5c08d677?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjMwNDQwfQ&s=d38ed9af72cd9d09972eed80efbf7a19);
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
@@ -278,6 +276,18 @@ form h1 {
 }
 .forecast-btn button:hover {
   background-color: #42b983;
+}
+.description {
+  display: inline-flex;
+  margin: 0 auto;
+  text-transform: capitalize;
+  font-style: italic;
+}
+.weather-check button {
+  color: black;
+}
+.weather-check button:hover {
+  color: white;
 }
 button {
   background-color: transparent;
