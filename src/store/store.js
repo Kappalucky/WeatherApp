@@ -8,6 +8,7 @@ export default new Vuex.Store({
     cities: {
       cityId: '',
       weatherData: [],
+      forecastData: [],
     },
   },
   getters: {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     addCityData(state, payload) {
       // Add city data with id being the 'key' to find the data
       state.cityData.push(payload);
+    },
+    addForecastData(state, payload) {
+      state.cities.forecastData.push(payload.data);
     },
   },
 });

@@ -31,12 +31,14 @@
                         <div class="card">
                           <div class="card-body">
                             <div class="location-name">
-                              <h4 class="card-title">{{ weatherDataNow.name }}</h4>
+                              <h2 id="city-name" class="card-title">{{ weatherDataNow.name }}</h2>
+                              <h2 id="date" class="card-text">{{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}</h2>
                             </div>
                             <div class="current-temp">
                               <img v-bind:src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'" width="150"/>
                               <!--<i :class="'owf owf-' + weatherDataNow.cod"></i>-->
-                              <p class="card-text">{{ weatherDataNow.main.temp }}°<span>K</span></p>
+                              <p id="temp-now" class="card-text">{{ weatherDataNow.main.temp }}°
+                                <span>K</span></p>
                             </div>
                             <b-container>
                               <b-row>
@@ -81,8 +83,9 @@
                             </b-container>
                             <div class="forecast-btn">
                               <b-button :to="{ name: 'City',
-                          params: { id: weatherInfo.id, data:weatherDataNow }}">7 Day</b-button>
-                              <b-button :to="{ name: 'Locations',
+                          params: { id: weatherInfo.id, data:
+                          weatherDataNow, link: backgroundLink }}">7 Day</b-button>
+                              <b-button :to="{ name: 'CityDetails',
                               params: { id: weatherInfo.id, data:weatherDataNow,
                               forcast:weatherForecast }}">Full details</b-button>
                             </div>
@@ -101,6 +104,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import moment from 'moment';
 import WeatherService from '../services/WeatherService';
 import ImageService from '../services/ImageService';
 
@@ -108,6 +112,8 @@ export default {
   name: 'Home',
   data() {
     return {
+      moment,
+      unitStatus: 'F',
       cityName: '',
       weatherDataNow: [],
       weatherForecast: [],
@@ -205,6 +211,15 @@ export default {
       const response = await ImageService.getRandom();
       this.backgroundLink = response.data.urls.full;
     },
+    convertTemp(temp) {
+      if (this.unitStatus === 'F') {
+        return ((temp * (9 / 5)) - (459.67)).toFixed(0);
+      }
+      if (this.unitStatus === 'C') {
+        return (temp - 273.15).toFixed(0);
+      }
+      return temp.toFixed(0);
+    },
   },
   beforeMount() {
     this.getRandom();
@@ -225,6 +240,7 @@ export default {
   display: inline-block;
   font-size: 4em;
 }
+
 #headline {
   display: block;
   font-size: 85%;
@@ -233,6 +249,16 @@ export default {
   display: grid;
   justify-content: left;
   justify-items: center;
+  font-size: 2em;
+}
+.wind-data {
+  display: grid;
+  justify-content: right;
+  justify-items: center;
+  font-size: 2em;
+}
+#temp-now {
+  font-size: 3.4rem;
 }
 .description p {
   margin: 0;

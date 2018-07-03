@@ -1,5 +1,5 @@
 <template>
-  <div id="forecast-card">
+  <div id="city-forecast">
     <!-- Card View - Detailed -->
     <b-card-group deck>
         <b-card title="Title"
@@ -67,7 +67,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'ForecastCard',
+  name: 'CityForecast',
   computed: mapState([
     'user',
   ]),
