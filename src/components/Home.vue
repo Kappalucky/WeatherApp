@@ -1,76 +1,109 @@
 <template>
-      <div class="home" :style="{ backgroundImage: `url('${backgroundLink}')` }">
-        <div class="shaded-cover">
-          <b-container id="select-location">
-            <b-row align-v="center">
-                <b-col align-self="center">
-                    <div class="main-search">
-                     <div class="form-group">
-                        <h1>Search for city or use current location</h1>
-                        <p>PS: U.S. Users can use zipcodes <img id="cool-shades" src='https://emojipedia-us.s3.amazonaws.com/thumbs/160/whatsapp/116/smiling-face-with-sunglasses_1f60e.png'/></p>
-                        <b-form-group>
-                           <b-form-input type="text" name="cityName"
-                            placeholder="Enter a city or zipcode..."
-                            @keydown.enter.native="getWeatherNow"
-                            v-model="cityName"
-                            class="form-control"/>
-                        </b-form-group>
-                        <div class="weather-check">
-                          <b-button variant="outline-success"
-                            @click="getCurrentWeather" v-if="locationStatus"
-                            type="submit" id="find-location">Current Location</b-button>
-                            <b-button variant="outline-success"
-                            @click="getWeatherNow"
-                            type="submit" id="get-weather">Search Location</b-button>
+  <!--<div
+    :style="{ backgroundImage: `url('${backgroundLink}')` }"
+    class="home">
+    <div class="shaded-cover">
+      <div
+        id="select-location"
+        class="container">
+        <div
+          class="row"
+          align-v="center">
+          <div
+            class="col"
+            align-self="center">
+            <div class="main-search">
+              <div class="form-group">
+                <h1>Search for city or use current location</h1>
+                <p>PS: U.S. Users can use zipcodes <img
+                  id="cool-shades"
+                  src="https://emojipedia-us.s3.amazonaws.com/thumbs/160/whatsapp/116/smiling-face-with-sunglasses_1f60e.png"></p>
+                <div class="form-group">
+                  <input
+                    v-model="cityName"
+                    class="form-input"
+                    type="text"
+                    name="cityName"
+                    placeholder="Enter a city or zipcode..."
+                    class="form-control"
+                    @keydown.enter.native="getWeatherNow">
+                </div>
+                <div class="weather-check">
+                  <button
+                    v-if="locationStatus"
+                    id="find-location"
+                    variant="outline-success"
+                    type="submit"
+                    @click="getCurrentWeather">Current Location</button>
+                  <button
+                    id="get-weather"
+                    variant="outline-success"
+                    type="submit"
+                    @click="getWeatherNow">Search Location</button>
+                </div>
+              </div>
+            </div>
+            <transition
+              enter-active-class="animated bounceIn"
+              leave-active-class="animated bounceOut">
+              <template v-if="hasData">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="location-name">
+                      <h2
+                        id="city-name"
+                        class="card-title">{{ weatherDataNow.name }}</h2>
+                      <h2
+                        id="date"
+                        class="card-text">
+                        {{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}</h2>
+                    </div>
+                    <div class="current-temp">
+                      <img
+                        :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'"
+                        width="150">
+                      <i :class="'owf owf-' + weatherDataNow.cod"></i>-->
+  <!--<p
+                        id="temp-now"
+                        class="card-text">{{ weatherDataNow.main.temp }}°
+                      <span>K</span></p>
+                    </div>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col">
+                          <div class="temp-min-max">
+                            <span id="headline">High/Low</span>
+                            <small
+                              id="temp-high"
+                              class="card-text">{{ convertTemp(weatherDataNow.main.temp_max) }}°
+                            <span>F</span></small>
+                            <small
+                              id="temp-low"
+                              class="card-text">{{ convertTemp(weatherDataNow.main.temp_min) }}°
+                            <span>F</span></small>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="wind-data">
+                            <span id="headline">Wind</span>
+                            <small
+                              id="wind-speed"
+                              class="card-text">Speeds <span>
+                                {{ weatherDataNow.wind.speed }}</span></small>
+                            <small
+                              id="wind-direct"
+                              class="card-text">direction<span>
+                                {{ weatherDataNow.wind.deg }}</span></small>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <transition enter-active-class="animated bounceIn"
-                    leave-active-class="animated bounceOut">
-                      <template v-if="hasData">
-                        <div class="card">
-                          <div class="card-body">
-                            <div class="location-name">
-                              <h2 id="city-name" class="card-title">{{ weatherDataNow.name }}</h2>
-                              <h2 id="date" class="card-text">
-                                {{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}</h2>
-                            </div>
-                            <div class="current-temp">
-                              <img v-bind:src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'" width="150"/>
-                              <!--<i :class="'owf owf-' + weatherDataNow.cod"></i>-->
-                              <p id="temp-now" class="card-text">{{ weatherDataNow.main.temp }}°
-                                <span>K</span></p>
-                            </div>
-                            <b-container>
-                              <b-row>
-                                <b-col>
-                                  <div class="temp-min-max">
-                                    <span id="headline">High/Low</span>
-                                    <small class="card-text"
-                                    id="temp-high">{{ convertTemp(weatherDataNow.main.temp_max) }}°
-                                      <span>F</span></small>
-                                    <small class="card-text"
-                                    id="temp-low">{{ convertTemp(weatherDataNow.main.temp_min) }}°
-                                      <span>F</span></small>
-                                  </div>
-                                </b-col>
-                                <b-col>
-                                  <div class="wind-data">
-                                    <span id="headline">Wind</span>
-                                    <small class="card-text" id="wind-speed">Speeds <span>
-                                      {{ weatherDataNow.wind.speed }}</span></small>
-                                    <small class="card-text" id="wind-direct">direction<span>
-                                      {{ weatherDataNow.wind.deg }}</span></small>
-                                  </div>
-                                </b-col>
-                              </b-row>
-                              <b-row>
-                                <div class="description">
-                                  <p class="card-text">Currently
-                                     {{ weatherDataNow.weather[0].description }}.</p>
-                                  <p>With a {{ weatherDataNow.main.humidity }} of humidity...</p>
-                                  <p class="card-text">Looking like a beautiful day</p>
-                                  <!--  <span>If chance of rain < 40%
+                      <div class="row">
+                        <div class="description">
+                          <p class="card-text">Currently
+                            {{ weatherDataNow.weather[0].description }}.</p>
+                          <p>With a {{ weatherDataNow.main.humidity }} of humidity...</p>
+                          <p class="card-text">Looking like a beautiful day</p>
+                          <span>If chance of rain < 40%
                                   <p class="card-text">Looking like a beautiful day</p>
                                       If > 40% < 65%
                                   <p class="card-text">You should probably bring an umbrella</p>
@@ -79,31 +112,37 @@
                                   </span>
                                   </p>
                                   <p class="card-text"></p> -->
-                                </div>
-                              </b-row>
-                            </b-container>
-                            <div class="forecast-btn">
-                              <b-button :to="{ name: 'City',
-                          params: { id: weatherInfo.id, data:
-                          weatherDataNow, link: backgroundLink }}">7 Day</b-button>
-                              <b-button :to="{ name: 'CityDetails',
-                              params: { id: weatherInfo.id, data:weatherDataNow,
-                              forcast:weatherForecast }}">Full details</b-button>
-                            </div>
-                          </div>
-                        </div>
-                      </template>
-                        <!--Errors will be placed in template below
+  <!--</div>
+                      </div>
+                    </div>
+                    <div class="forecast-btn">
+                      <button
+                        :to="{ name: 'City',
+                               params: { id: weatherInfo.id, data:
+                        weatherDataNow, link: backgroundLink }}">7 Day</button>
+                      <b-button
+                        :to="{ name: 'CityDetails',
+                               params: { id: weatherInfo.id, data:weatherDataNow,
+                                         forcast:weatherForecast }}">Full details</button>
+                    </b-button></div>
+                  </div>
+                </div>
+              </template>
+              Errors will be placed in template below
                         <template v-else><p>no data</p></template>-->
-                    </transition>
-                </b-col>
-            </b-row>
-        </b-container>
+  <!--</transition>
+          </div>
         </div>
       </div>
+    </div>
+  </div>-->
+  <div>
+    <h1>Home Page</h1>
+  </div>
 </template>
 
 <script>
+/*
 import { mapState, mapMutations } from 'vuex';
 import moment from 'moment';
 import WeatherService from '../services/WeatherService';
@@ -139,10 +178,7 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations([
-      'addCity',
-      'addCityData',
-    ]),
+    ...mapMutations(['addCity', 'addCityData']),
     addError() {
       if (this.inputError === true) {
         this.error = 'Please enter a word.';
@@ -205,14 +241,17 @@ export default {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
               });
-            }, () => {
+            },
+            () => {
               reject('no position available');
             },
           );
         });
 
-        const response = await WeatherService
-          .getCurrentWeather({ lat: newPosition.latitude, lon: newPosition.longitude });
+        const response = await WeatherService.getCurrentWeather({
+          lat: newPosition.latitude,
+          lon: newPosition.longitude,
+        });
         this.weatherDataNow = response.data;
         this.$store.commit('addCity', { id: this.weatherDataNow.id, data: this.weatherDataNow });
         this.hasData = true;
@@ -225,7 +264,7 @@ export default {
     },
     convertTemp(temp) {
       if (this.unitStatus === 'F') {
-        return ((temp * (9 / 5)) - (459.67)).toFixed(0);
+        return (temp * (9 / 5) - 459.67).toFixed(0);
       }
       if (this.unitStatus === 'C') {
         return (temp - 273.15).toFixed(0);
@@ -236,7 +275,7 @@ export default {
   beforeMount() {
     this.getRandom();
   },
-};
+}; */
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -248,7 +287,7 @@ export default {
   color: black;
 }
 .current-temp {
-  color: #2B2524;
+  color: #2b2524;
   display: inline-block;
   font-size: 4em;
 }
@@ -275,7 +314,8 @@ export default {
 .description p {
   margin: 0;
 }
-h1, h2 {
+h1,
+h2 {
   font-weight: 300;
 }
 
@@ -330,12 +370,13 @@ form h1 {
 button {
   background-color: transparent;
   border-color: white;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
   /* border-radius: 2.89px; */
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
-  padding: .84rem 2.14rem;
-  font-size: .81rem;
-  margin: .375rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  padding: 0.84rem 2.14rem;
+  font-size: 0.81rem;
+  margin: 0.375rem;
   cursor: pointer;
   text-transform: uppercase;
   white-space: normal;
@@ -355,17 +396,17 @@ input {
   margin-top: -20px;
 }
 .shaded-cover {
-    display: flex;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    background-attachment: fixed;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgba(0,0,0,.3);
-    align-items: center;
-    -webkit-box-align: center;
-    justify-content: center;
+  display: flex;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-attachment: fixed;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.3);
+  align-items: center;
+  -webkit-box-align: center;
+  justify-content: center;
 }
 #cool-shades {
   width: 20px;

@@ -1,7 +1,11 @@
 <template>
-  <div id="home">
+  <main id="search_page">
+    <h1>Testing</h1>
+    <!--Centered Form component goes here-->
+    <input>
+    <button>Test button</button>
     <home/>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -9,9 +13,9 @@
 import Home from '@/components/Home.vue';
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
-    Home
-  }
+    Home,
+  },
 };
 </script>
