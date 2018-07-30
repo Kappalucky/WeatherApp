@@ -1,7 +1,6 @@
 <template>
-  <div class="home">
-    <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="locations">
+    <h1>Multiple locations data goes here</h1>
   </div>
 </template>
 
@@ -14,3 +13,6 @@ export default {
   components: {},
 };
 </script>
+
+<style scoped>
+</style>

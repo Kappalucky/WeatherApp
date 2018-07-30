@@ -19,6 +19,13 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: 'Search',
+  // TO-DO: Add button functions
+};
+</script>
+
 <style scoped>
 .btn {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),

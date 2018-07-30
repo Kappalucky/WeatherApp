@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import City from './views/City.vue';
+import CityDetails from './views/CityDetails.vue';
+import Location from './views/Locations.vue';
 
 Vue.use(Router);
 
@@ -22,9 +24,24 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
+      path: '/city',
+      name: 'CityTest',
+      component: City,
+    },
+    /* {
       path: '/city/:id',
       name: 'City',
       component: City,
+    }, */
+    {
+      path: '/cityDetails',
+      name: 'CityDetails',
+      component: CityDetails,
+    },
+    {
+      path: '/locations',
+      name: 'Locations',
+      component: Location,
     },
   ],
 });
