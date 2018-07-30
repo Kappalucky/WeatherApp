@@ -1,10 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import Locations from './views/Locations.vue';
 import City from './views/City.vue';
-import CityDetails from './views/CityDetails.vue';
-import CityForecast from './views/CityForecast.vue';
 
 Vue.use(Router);
 
@@ -28,13 +25,6 @@ export default new Router({
       path: '/city/:id',
       name: 'City',
       component: City,
-    },
-    { path: 'forecast', name: 'CityForecast', component: CityForecast }, // 16 week forecast
-    { path: 'details', name: 'CityDetails', component: CityDetails }, // full data page
-    {
-      path: '/locations',
-      name: 'Locations',
-      component: Locations,
     },
   ],
 });
