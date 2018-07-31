@@ -1,5 +1,7 @@
 <template>
-  <main id="home">
+  <main
+    id="home"
+    :style="{ backgroundImage: `url('${backgroundLink}')` }">
     <div
       id="intro"
       class="view">
@@ -29,12 +31,28 @@
 
 <script>
 // @ is an alias to /src
+import WeatherService from '@/services/WeatherService';
+import ImageService from '@/services/ImageService';
 import Search from '@/components/Search.vue';
 
 export default {
   name: 'Home',
   components: {
     Search,
+  },
+  data() {
+    return {
+      backgroundLink: '',
+    };
+  },
+  beforeMount() {
+    this.getRandom();
+  },
+  methods: {
+    async getRandom() {
+      const response = await ImageService.getRandom();
+      this.backgroundLink = response.data.urls.full;
+    },
   },
 };
 </script>
@@ -46,7 +64,7 @@ export default {
   height: 100%;
 }
 #home {
-  background: url('https://images.unsplash.com/photo-1506444187582-b55b5c08d677?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjMwNDQwfQ&s=d38ed9af72cd9d09972eed80efbf7a19')
+  background-image: url('https://images.unsplash.com/photo-1506444187582-b55b5c08d677?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjMwNDQwfQ&s=d38ed9af72cd9d09972eed80efbf7a19')
     no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
