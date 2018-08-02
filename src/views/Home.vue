@@ -10,7 +10,9 @@
           <div class="row d-flex justify-content-center text-center">
             <div class="col-md-12">
               <!-- Title -->
-              <h2 class="display-4 font-weight-bold white-text pt-5 mb-2">KWeather</h2>
+              <h2
+                id="main_title"
+                class="display-4 font-weight-bold white-text pt-5 mb-2">KWeather</h2>
               <!-- Help text -->
               <small class="white-text">PS: U.S. Users can use zipcodes
                 <img
@@ -42,6 +44,7 @@ export default {
   },
   data() {
     return {
+      unitStatus: 'F',
       backgroundLink: '',
     };
   },
@@ -53,12 +56,29 @@ export default {
       const response = await ImageService.getRandom();
       this.backgroundLink = response.data.urls.full;
     },
+    // Uses temp attribute from weather data
+    convertTemp(temp) {
+      // Kelvin to Fahrenheit
+      if (this.unitStatus === 'F') {
+        return ((temp * (9 / 5)) - 459.67).toFixed(0);
+        // Kelvin to Celsius
+      } else if (this.unitStatus === 'C') {
+        return (temp - 273.15).toFixed(0);
+      }
+      // Default to Kelvin
+      return temp.toFixed(0);
+    },
   },
 };
 </script>
 <style>
+@import 'https://fonts.googleapis.com/css?family=Permanent+Marker';
+
 #home {
   height: 100vh;
+}
+#main_title {
+  font-family: 'Permanent Marker', cursive;
 }
 .view {
   height: 100%;

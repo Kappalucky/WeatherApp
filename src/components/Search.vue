@@ -17,12 +17,67 @@
         type="button"
         class="btn btn-outline-primary">Test2</button>
     </div>
+    <!--TO-DO: Add modal to seperate container. trigger by test button click-->
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#basicExampleModal">
+      Launch demo modal
+    </button>
+    <!-- Modal -->
+    <div
+      id="basicExampleModal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div
+        class="modal-dialog"
+        role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5
+              id="exampleModalLabel"
+              class="modal-title">Modal title</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal">Close</button>
+            <button
+              type="button"
+              class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End modal -->
   </div>
 </template>
 <script>
 export default {
   name: 'Search',
   // TO-DO: Add button functions
+  data() {
+
+  },
+  methods: {
+
+  },
 };
 </script>
 
