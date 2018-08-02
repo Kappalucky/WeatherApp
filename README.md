@@ -1,6 +1,7 @@
 # Kweather-app
 
 > A General purpose weather app built with Vue (Vuex) + Firebase (eventually)
+> V1 Currently hosted at https://kweather-app.herokuapp.com
 
 ## Build Setup
 
@@ -41,3 +42,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 - Updated Vue CLI to 3.0 and merged file system over into new master branch
 - In the process of adding views and adding old pages into components
 - After, will be changing the entire style and working with Material Bootstrap rather than a npm bootstrap package
+- Error with function calls on Heroku, switching to Github pages at V2
