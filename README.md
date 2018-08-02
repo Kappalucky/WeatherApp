@@ -1,6 +1,7 @@
 # Kweather-app
 
 > A General purpose weather app built with Vue (Vuex) + Firebase (eventually)
+> V1 Currently hosted at https://kweather-app.herokuapp.com
 
 ## Build Setup
 
@@ -35,3 +36,10 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 - Firebase will also be used to serve JSON data that holds the full name, location, population, and other details about cities in the effort in making the search more user friendly, interactive and accurate.
 - Styling takes forever but being that API's are fully configured...with a bit of restructuring on the endpoints and file structure.
 - Map API's will need to be implemented as well as chart system.
+
+## Updates
+
+- Updated Vue CLI to 3.0 and merged file system over into new master branch
+- In the process of adding views and adding old pages into components
+- After, will be changing the entire style and working with Material Bootstrap rather than a npm bootstrap package
+- Error with function calls on Heroku, switching to Github pages at V2

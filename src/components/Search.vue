@@ -17,12 +17,107 @@
         type="button"
         class="btn btn-outline-primary">Test2</button>
     </div>
+    <!--TO-DO: Add modal to seperate container. trigger by test button click-->
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#basicExampleModal">
+      Launch demo modal
+    </button>
+    <!-- Modal -->
+    <div
+      id="basicExampleModal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div
+        class="modal-dialog"
+        role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5
+              id="exampleModalLabel"
+              class="modal-title">Modal title</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal">Close</button>
+            <button
+              type="button"
+              class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End modal -->
   </div>
 </template>
 <script>
+import WeatherService from '@/services/WeatherService';
+
 export default {
   name: 'Search',
   // TO-DO: Add button functions
+  data() {
+    return {
+      cityName: '',
+      hasData: false,
+      locationError: false,
+      error: '',
+      weatherDataNow: [],
+    };
+  },
+  methods: {
+    async getWeatherNow() {
+      // Temporary error checking method
+      // does not change data if error, calls error using 'hasData'. logs message to 'error'
+      if (this.cityName === '' || this.cityName < 2 || this.cityName === undefined) {
+        this.weatherDataNow = '';
+        this.hasData = false;
+        this.error = 'Please enter a word.';
+      }
+      // If user input is not a number/zip search data for cityname
+      if (isNaN(this.cityName)) {
+        try {
+          const response = await WeatherService.getWeatherNow({
+            city: this.cityName,
+          });
+          this.weatherDataNow = response.data;
+          this.hasData = true;
+        } catch (error) {
+          this.locationError = true;
+          this.error = 'The city name you entered could not be found.';
+        }
+      } else {
+        try {
+          const response = await WeatherService.getCurrentWeatherByZip({
+            zip: this.cityName,
+          });
+          this.weatherDataNow = response.data;
+          this.hasData = true;
+        } catch (error) {
+          this.error = 'Invalid text';
+        }
+      }
+    },
+
+  },
 };
 </script>
 
