@@ -33,7 +33,6 @@
 
 <script>
 // @ is an alias to /src
-import WeatherService from '@/services/WeatherService';
 import ImageService from '@/services/ImageService';
 import Search from '@/components/Search.vue';
 

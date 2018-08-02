@@ -69,13 +69,53 @@
   </div>
 </template>
 <script>
+import WeatherService from '@/services/WeatherService';
+
 export default {
   name: 'Search',
   // TO-DO: Add button functions
   data() {
-
+    return {
+      cityName: '',
+      hasData: false,
+      locationError: false,
+      error: '',
+      weatherDataNow: [],
+    };
   },
   methods: {
+    async getWeatherNow() {
+      // Temporary error checking method
+      // does not change data if error, calls error using 'hasData'. logs message to 'error'
+      if (this.cityName === '' || this.cityName < 2 || this.cityName === undefined) {
+        this.weatherDataNow = '';
+        this.hasData = false;
+        this.error = 'Please enter a word.';
+      }
+      // If user input is not a number/zip search data for cityname
+      if (isNaN(this.cityName)) {
+        try {
+          const response = await WeatherService.getWeatherNow({
+            city: this.cityName,
+          });
+          this.weatherDataNow = response.data;
+          this.hasData = true;
+        } catch (error) {
+          this.locationError = true;
+          this.error = 'The city name you entered could not be found.';
+        }
+      } else {
+        try {
+          const response = await WeatherService.getCurrentWeatherByZip({
+            zip: this.cityName,
+          });
+          this.weatherDataNow = response.data;
+          this.hasData = true;
+        } catch (error) {
+          this.error = 'Invalid text';
+        }
+      }
+    },
 
   },
 };
