@@ -32,60 +32,30 @@
     <button
       type="button"
       class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#basicExampleModal">
+      @click="showModal">
       Launch demo modal
     </button>
     <!-- Modal -->
-    <div
-      id="basicExampleModal"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div
-        class="modal-dialog"
-        role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5
-              id="exampleModalLabel"
-              class="modal-title">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal">Close</button>
-            <button
-              type="button"
-              class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End modal -->
+    <modal
+      v-show="isModalVisible"
+      @close="closeModal"/>
+      <!-- End modal -->
   </div>
 </template>
 <script>
 import WeatherService from '@/services/WeatherService';
+import modal from '@/components/Modal.vue';
 
 export default {
   name: 'Search',
-  // TO-DO: Add button functions
+  components: {
+    modal,
+  },
   data() {
     return {
+      // Modal data below
+      isModalVisible: false,
+      // Modal data above
       cityInput: '', // Variable for user input
       hasData: false, // If function calls data
       locationStatus: true, // If browser is able to call geolocation API
@@ -113,6 +83,7 @@ export default {
           });
           this.weatherDataNow = response.data;
           this.hasData = true;
+          this.showModal();
         } catch (error) {
           this.locationError = true;
           this.error = 'The city name you entered could not be found.';
@@ -124,6 +95,7 @@ export default {
           });
           this.weatherDataNow = response.data;
           this.hasData = true;
+          this.showModal();
         } catch (error) {
           this.hasData = false;
           this.error = 'Invalid text';
@@ -156,6 +128,7 @@ export default {
         });
         this.weatherDataNow = response.data;
         this.hasData = true;
+        this.showModal();
       }
     },
     addError() {
@@ -171,6 +144,14 @@ export default {
         this.locationError = false;
       }, 3000);
     },
+    // Modal data below
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+    // Modal data above
   },
 };
 </script>
@@ -184,5 +165,8 @@ export default {
   border-radius: 10em;
   padding: 0.84rem 2.14rem;
   font-size: 0.81rem;
+}
+.modal {
+  display: flex;
 }
 </style>
