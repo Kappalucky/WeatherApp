@@ -25,7 +25,7 @@ export default new Router({
     },
     {
       path: '/city',
-      name: 'CityTest',
+      name: 'City',
       component: City,
     },
     /* {
