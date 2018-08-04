@@ -16,7 +16,7 @@
       <button
         v-if="locationStatus"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-outline-primary"
         @click="getCurrentWeather">
         Current Location
       </button>
@@ -27,7 +27,6 @@
         Search Location
       </button>
     </div>
-    <!-- TO-DO: Add modal to seperate container. trigger by test button click -->
     <!-- Button trigger modal -->
     <button
       type="button"
@@ -35,16 +34,57 @@
       @click="showModal">
       Launch demo modal
     </button>
+
     <!-- Modal -->
     <modal
       v-show="isModalVisible"
-      @close="closeModal"/>
-      <!-- End modal -->
+      @close="closeModal">
+      <div slot="header">
+        <h1 id="city-name">{{ weatherDataNow.name }}</h1>
+        <h4 id="dateNow">{{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}</h4>
+      </div>
+      <div slot="body">
+        <div id="current-temp">
+          <!--<img
+            :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'"
+            width="150">-->
+          <div id="temp-now">
+            <!--<span>{{ weatherDataNow.main.temp }}°</span>-->
+            <span>K</span>
+          </div>
+          <div>
+            <p>High/Low</p>
+            <!--<small>{{ weatherDataNow.main.temp_max }}<span>°F</span></small>-->
+            <p>/</p>
+            <!--<small>{{ weatherDataNow.main.temp_min }}<span>°F</span></small>-->
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <router-link :to="{ path: 'City' }">
+          <button
+            type="button"
+            class="btn btn-secondary">
+            Forecast
+          </button>
+        </router-link>
+        <router-link :to="{ path: 'Locations' }">
+          <button
+            type="button"
+            class="btn btn-primary">
+            Full Details
+          </button>
+        </router-link>
+      </div>
+    </modal>
+    <!-- End modal -->
+
   </div>
 </template>
 <script>
 import WeatherService from '@/services/WeatherService';
 import modal from '@/components/Modal.vue';
+import moment from 'moment';
 
 export default {
   name: 'Search',
@@ -53,6 +93,7 @@ export default {
   },
   data() {
     return {
+      moment,
       // Modal data below
       isModalVisible: false,
       // Modal data above
@@ -83,7 +124,7 @@ export default {
           });
           this.weatherDataNow = response.data;
           this.hasData = true;
-          this.showModal();
+          this.isModalVisible = true;
         } catch (error) {
           this.locationError = true;
           this.error = 'The city name you entered could not be found.';
@@ -95,7 +136,7 @@ export default {
           });
           this.weatherDataNow = response.data;
           this.hasData = true;
-          this.showModal();
+          this.isModalVisible = true;
         } catch (error) {
           this.hasData = false;
           this.error = 'Invalid text';
@@ -128,7 +169,7 @@ export default {
         });
         this.weatherDataNow = response.data;
         this.hasData = true;
-        this.showModal();
+        // this.showModal();
       }
     },
     addError() {
@@ -166,6 +207,11 @@ export default {
   padding: 0.84rem 2.14rem;
   font-size: 0.81rem;
 }
+
+.btn-outline-primary {
+  color: white !important;
+}
+
 .modal {
   display: flex;
 }

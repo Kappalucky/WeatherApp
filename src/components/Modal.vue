@@ -1,14 +1,20 @@
 <template>
   <transition name="modal-fade">
-    <div class="modal-backdrop">
-      <div class="modal">
-
-        <header
-          id="modalTitle"
-          class="modal-header">
-          <slot name="header">
-            Default Title
-
+    <div
+      class="modal fade show"
+      role="dialog"
+      aria-labelledby="modal"
+      aria-hidden="true">
+      <div
+        class="modal-dialog modal-dialog-centered"
+        role="document">
+        <div class="modal-content">
+          <header
+            id="modalTitle"
+            class="modal-header">
+            <slot name="header">
+              <h5 class="modal-title">Default Header</h5>
+            </slot>
             <button
               type="button"
               class="close"
@@ -16,33 +22,22 @@
               @click="close">
               <span aria-hidden="true">&times;</span>
             </button>
-          </slot>
-        </header>
+          </header>
 
-        <section
-          id="modalDescription"
-          class="modal-body">
-          <slot name="body">
-            Default Body!
-          </slot>
-        </section>
+          <section
+            id="modalDescription"
+            class="modal-body">
+            <slot name="body">
+              Default Body!
+            </slot>
+          </section>
 
-        <footer class="modal-footer">
-          <slot name="footer">
-            default footer!
-
-            <button
-              type="button"
-              class="btn btn-secondary">
-              Forecast
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary">
-              Full Details
-            </button>
-          </slot>
-        </footer>
+          <footer class="modal-footer">
+            <slot name="footer">
+              Default footer!
+            </slot>
+          </footer>
+        </div>
       </div>
     </div>
   </transition>
@@ -70,7 +65,7 @@ export default {
   transition: opacity 0.5s ease;
 }
 
-.modal-backdrop {
+/*.modal-backdrop {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -83,11 +78,16 @@ export default {
 }
 
 .modal {
-  background: #ffffff;
+  //background: #ffffff;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: auto;
   display: flex;
+  justify-content: center;
   flex-direction: column;
+}
+
+.modal-large {
+  background: #ffffff;
 }
 
 .modal-header,
@@ -109,5 +109,5 @@ export default {
 .modal-body {
   position: relative;
   padding: 20px 10px;
-}
+}*/
 </style>
