@@ -1,97 +1,60 @@
 <template>
-  <!--<section id="info-banner">
-    <div
-      id="details"
-      class="">
-      <div
-        id="wind"
-        class="px-4 card">
-        <div class="card-body">
-          <span id="label">Wind:</span>
-          <span id="values">
-            <span id="number">3</span>
-            <span id="unit">mph</span>
-            <span id="direction">-></span>
-          </span>
-        </div>
-      </div>
-      <div
-        id="humidity"
-        class="px-4 card">
-        <div class="card-body">
-          <span>Humidity: </span>
-          <span>
-            <span>45</span><span>%</span>
-          </span>
-        </p></div>
-      </div>
-      <div
-        id="dew"
-        class="px-4 card">
-        <div class="card-body">
-          <span id="label">Dew Pt:</span>
-          <span id="values">
-            <span id="number">79</span>
-            <span id="unit">˚</span>
-        </span></div>
-
-      </div>
-      <div
-        id="breakpoint"
-        class="px-4"/>
-      <div
-        id="uvIndex"
-        class="px-4 card">
-        <div class="card-body">
-          <span id="label">UV Index:</span>
-          <span id="values">
-            <span id="number">0</span>
-        </span></div>
-
-      </div>
-      <div
-        id="visibility"
-        class="px-4 card">
-        <div class="card-body">
-          <span id="label">Visibility:</span>
-          <span id="values">
-            <span id="number">10</span>
-            <span id="unit">mi</span>
-        </span></div>
-
-      </div>
-      <div
-        id="pressure"
-        class="px-4 card">
-        <div class="card-body">
-          <span id="label">pressure:</span>
-          <span id="values">
-            <span id="number">1056</span>
-            <span id="unit">mb</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </section>-->
   <section class="weatherInfo">
     <section class="banner">
-      <div class="banner--content">
-        <p>Text</p>
-      </div>
-      <div class="banner--content">
-        <p/>
-      </div>
-      <div class="banner--content">
-        <p/>
-      </div>
-      <div class="banner--content">
-        <p/>
-      </div>
-      <div class="banner--content">
-        <p/>
-      </div>
-      <div class="banner--content">
-        <p/>
+      <div class="banner--container">
+        <div class="banner--container_content">
+          <div id="wind">
+            <span id="label">Wind:</span>
+            <span id="value">
+              <span id="number">7</span>
+              <span id="unit">mph</span>
+            </span>
+          </div>
+        </div>
+        <div class="banner--container_content">
+          <div id="humidity">
+            <span id="label">Humidity:</span>
+            <span id="value">
+              <span id="number">78</span>
+              <span id="unit">%</span>
+            </span>
+          </div>
+        </div>
+        <div class="banner--container_content">
+          <div id="dew_point">
+            <span id="label">Dew Pt:</span>
+            <span id="value">
+              <span id="number">72</span>
+              <span id="unit">˚</span>
+            </span>
+          </div>
+        </div>
+        <div class="banner--container_content">
+          <div id="uv_index">
+            <span id="label">UV Index:</span>
+            <span id="value">
+              <span id="number">0</span>
+            </span>
+          </div>
+        </div>
+        <div class="banner--container_content">
+          <div id="visibility">
+            <span id="label">Visibility:</span>
+            <span id="value">
+              <span id="number">10</span>
+              <span id="unit">mi</span>
+            </span>
+          </div>
+        </div>
+        <div class="banner--container_content">
+          <div id="pressure">
+            <span id="label">Pressure:</span>
+            <span id="value">
+              <span id="number">1016</span>
+              <span id="unit">mb</span>
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   </section>
@@ -104,35 +67,7 @@ export default {
 </script>
 
 <style scoped>
-/*#info-banner {
-  background-color: grey;
-  min-height: 46px;
-  min-width: 100%;
-}
-#details {
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  align-items: center;
-  padding: 1%;
-  justify-content: space-between;
-}
-.card {
-  height: 46px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.card-body {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-}*/
 .weatherInfo {
-  background-color: #8e44ad;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -141,18 +76,35 @@ export default {
   width: 100%;
 }
 .banner {
-  background-color: #fff;
+  background-color: #f7f7f7;
   min-width: 100%;
-  min-height: 100px;
+  min-height: 50px;
   display: flex;
   overflow-x: auto;
+  justify-content: flex-start;
 }
-.banner--content {
-  background-color: #e74c3c;
-  min-width: 200px;
+.banner--container {
+  display: flex;
+  margin: 0 auto;
+}
+.banner--container_content {
+  min-width: 100px;
+  padding: 0 4px;
   margin: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+#label {
+  font-weight: bold;
+  font-family: 'Scope One';
+}
+#value {
+  margin-left: 4px;
+  font-family: 'Arima Madurai';
+  color: black;
+}
+#value span:first-child {
+  margin-right: 2px;
 }
 </style>

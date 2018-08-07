@@ -1,13 +1,11 @@
 <template>
   <section id="city">
-    <h1>City data goes here</h1>
     <new-search/>
     <info-banner/>
     <current-temp/>
-    <time-chart/>
-    <weather-map/>
+    <!--<time-chart/>
+    <weather-map/>-->
     <week-forecast/>
-    <hr>
     <div id="see_more">
       <!--Link to page with full forcast info-->
       <!--Link to see page with multiple city data-->
@@ -15,7 +13,7 @@
         <button
           type="button"
           class="btn btn-secondary">
-          Full Details
+          Full Forecast
         </button>
       </router-link>
       <router-link :to="{ path: 'Locations' }">
@@ -52,4 +50,8 @@ export default {
 </script>
 
 <style scoped>
+#see_more {
+  text-align: center;
+  margin-bottom: 15px;
+}
 </style>

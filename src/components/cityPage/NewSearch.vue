@@ -145,7 +145,7 @@ export default {
   align-items: center;
   width: 100%;
   padding: 5px;
-  background-color: darkgrey;
+  background-color: #ededed;
 }
 .search {
   flex: 1;
@@ -159,6 +159,7 @@ export default {
 .search input {
   order: 1 !important;
   width: 50%;
+  text-align: center;
 }
 .search #search-button {
   order: 2 !important;
