@@ -1,7 +1,7 @@
 <template>
   <section id="week-forecast">
     <hr>
-    <div id="forecast">
+    <div id="forecast" class="py-4">
       <h4>Weekly Forecast:</h4>
       <div id="summary">
         <h3><span>Cloudy with a chance of meatballs</span></h3>
