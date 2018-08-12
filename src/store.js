@@ -12,7 +12,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getCityId: state => state.cities.map(city => city.cityId),
+    //getCityId: state => state.cities.map(city => city.cityId),
   },
   mutations: {
     addCity(state, payload) {

@@ -85,6 +85,7 @@
 import WeatherService from '@/services/WeatherService';
 import modal from '@/components/Modal.vue';
 import moment from 'moment';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Search',
@@ -104,9 +105,23 @@ export default {
       inputError: false,
       error: '', // Variable for error messages
       weatherDataNow: [], // Array to hold called data from weatherService API
+      weatherForecast: [],
     };
   },
+  computed: {
+    weatherInfo() {
+      if (this.weatherDataNow.weather) {
+        return this.weatherDataNow;
+      }
+      return '';
+    },
+    ...mapState({
+      cityData: state => state.cityData,
+      cities: state => state.cities,
+    }),
+  },
   methods: {
+    ...mapMutations(['addCity', 'addCityData']),
     // Calls weatherService API to get weather based on user input
     async getWeatherNow() {
       // Temporary error checking method
@@ -122,8 +137,12 @@ export default {
           const response = await WeatherService.getWeatherNow({
             city: this.cityInput,
           });
-          this.weatherDataNow = response.data;
           this.hasData = true;
+          this.$store.commit('addCity', {
+            id: response.data.id,
+            data: response.data,
+          });
+        this.showModal();
           this.isModalVisible = true;
         } catch (error) {
           this.locationError = true;
@@ -134,8 +153,12 @@ export default {
           const response = await WeatherService.getCurrentWeatherByZip({
             zip: this.cityInput,
           });
-          this.weatherDataNow = response.data;
           this.hasData = true;
+          this.$store.commit('addCity', {
+            id: response.data.id,
+            data: response.data,
+          });
+        this.showModal();
           this.isModalVisible = true;
         } catch (error) {
           this.hasData = false;
@@ -167,9 +190,13 @@ export default {
           lat: newPosition.latitude,
           lon: newPosition.longitude,
         });
-        this.weatherDataNow = response.data;
         this.hasData = true;
-        // this.showModal();
+        this.$store.commit('addCity', {
+            id: response.data.id,
+            data: response.data,
+          });
+        this.weatherDataNow = response.data;
+        this.showModal();
       }
     },
     addError() {
