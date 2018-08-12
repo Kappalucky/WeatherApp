@@ -1,50 +1,62 @@
 <template>
   <section id="week-forecast">
+    <hr>
     <div id="forecast">
+      <h4>Weekly Forecast:</h4>
       <div id="summary">
-        <h3>Cloudy with a chance of meatballs</h3>
+        <h3><span>Cloudy with a chance of meatballs</span></h3>
       </div>
-      <div
-        class="accordion"
-        role="tablist"
-        aria-multiselectable="true">
-        <div class="card">
-          <div
-            class="card-header"
-            role="tab">
-            <table class="table-borderless table-hover">
-              <th scope="col"><h5 class="mb-0">Icon</h5></th>
-              <th scope="col"><h5 class="mb-0"><i class="fa fa-angle-down rotate-icon"/></h5></th>
-            </table>
-          </div>
-        </div>
-        <table class="table table-borderless table-hover">
+        <table class="table table-borderless table-striped table-hover">
           <thead>
             <tr>
               <th scope="col">Icon</th>
               <th scope="col">Day</th>
-              <th scope="col">Low</th>
-              <th scope="col">High</th>
+              <th scope="col">Low/High</th>
+              <th scope="col">Feels like</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <th scope="row"><img class="weather-icon" src="https://png.icons8.com/metro/100/000000/sun.png"></th>
+              <td>Sunday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
             </tr>
             <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
+              <th scope="row">Cloudy</th>
+              <td>Monday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
             </tr>
             <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
+              <th scope="row">Sun</th>
+              <td>Tuesday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
+            </tr>
+            <tr>
+              <th scope="row">Overcast</th>
+              <td>Wednesday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
+            </tr>
+            <tr>
+              <th scope="row">Cloudy</th>
+              <td>Thursday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
+            </tr>
+            <tr>
+              <th scope="row">Thunder</th>
+              <td>Friday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
+            </tr>
+            <tr>
+              <th scope="row">Rain</th>
+              <td>Saturday</td>
+              <td>75˚F/90˚F</td>
+              <td>96˚F</td>
             </tr>
           </tbody>
         </table>
@@ -58,9 +70,24 @@ export default {
 };
 </script>
 <style scoped>
-#week-forecast {
+#forecast h4 {
+  color: grey;
+  font-family: 'Nixie One';
+  text-decoration: underline;
+  padding-left: 5px;
 }
+#summary h3 {
+  color: rgb(137, 145, 151);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: -2px;
+  font-size: 1.5em;
+}
+
 #summary {
   text-align: center;
+}
+th img {
+  width: 40px;
+  height: 40px;
 }
 </style>
