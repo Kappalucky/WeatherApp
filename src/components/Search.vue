@@ -38,6 +38,7 @@
     <!-- Modal -->
     <modal
       v-show="isModalVisible"
+      v-if="weatherInfo"
       @close="closeModal">
       <div slot="header">
         <h1 id="city-name">{{ weatherDataNow.name }}</h1>
@@ -49,14 +50,13 @@
             :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'"
             width="150">-->
           <div id="temp-now">
-            <!--<span>{{ weatherDataNow.main.temp }}°</span>-->
-            <span>K</span>
+          <span v-if="weatherInfo">{{ weatherDataNow.main.temp }}°<span>K</span></span>
           </div>
           <div>
             <p>High/Low</p>
-            <!--<small>{{ weatherDataNow.main.temp_max }}<span>°F</span></small>-->
+            <small>{{ weatherDataNow.main.temp_max }}<span>°F</span></small>
             <p>/</p>
-            <!--<small>{{ weatherDataNow.main.temp_min }}<span>°F</span></small>-->
+            <small>{{ weatherDataNow.main.temp_min }}<span>°F</span></small>
           </div>
         </div>
       </div>
@@ -104,6 +104,7 @@ export default {
       locationError: false, // No location data will return false
       inputError: false,
       error: '', // Variable for error messages
+      cityId: '',
       weatherDataNow: [], // Array to hold called data from weatherService API
       weatherForecast: [],
     };
@@ -116,12 +117,17 @@ export default {
       return '';
     },
     ...mapState({
-      cityData: state => state.cityData,
-      cities: state => state.cities,
+      unitStatus: state => state.unitStatus,
     }),
   },
   methods: {
-    ...mapMutations(['addCity', 'addCityData']),
+    /*...mapMutations(['addCity', 'addCityData']),
+    addCity: function() {
+      this.$store.dispatch('addCity', this);
+    },
+    deleteCity: function(id) {
+      this.$store.dispatch('deleteCity', id);
+    },*/
     // Calls weatherService API to get weather based on user input
     async getWeatherNow() {
       // Temporary error checking method
@@ -195,6 +201,7 @@ export default {
             id: response.data.id,
             data: response.data,
           });
+        this.cityId = response.data.id;
         this.weatherDataNow = response.data;
         this.showModal();
       }
