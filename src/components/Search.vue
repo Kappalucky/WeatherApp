@@ -38,11 +38,10 @@
     <!-- Modal -->
     <modal
       v-show="isModalVisible"
-      v-if="weatherInfo"
       @close="closeModal">
       <div slot="header">
-        <h1 id="city-name">{{ weatherDataNow.name }}</h1>
-        <h4 id="dateNow">{{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}</h4>
+        <h1 id="city-name" v-if="weatherInfo">{{ weatherDataNow.name }}</h1>
+        <h4 id="dateNow" v-if="weatherInfo">{{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}</h4>
       </div>
       <div slot="body">
         <div id="current-temp">
@@ -54,9 +53,9 @@
           </div>
           <div>
             <p>High/Low</p>
-            <small>{{ weatherDataNow.main.temp_max }}<span>°F</span></small>
+            <small v-if="weatherInfo">{{ weatherDataNow.main.temp_max }}<span>°F</span></small>
             <p>/</p>
-            <small>{{ weatherDataNow.main.temp_min }}<span>°F</span></small>
+            <small v-if="weatherInfo">{{ weatherDataNow.main.temp_min }}<span>°F</span></small>
           </div>
         </div>
       </div>
@@ -164,7 +163,7 @@ export default {
             id: response.data.id,
             data: response.data,
           });
-        this.showModal();
+          this.showModal();
           this.isModalVisible = true;
         } catch (error) {
           this.hasData = false;
