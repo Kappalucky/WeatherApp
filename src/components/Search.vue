@@ -2,56 +2,69 @@
   <div id="search">
 
     <!-- Error Message Field -->
-    <transition enter-active-class="animated fadeInUp shake" leave-active-class="animated fadeOutDown">
-      <div v-show="!error.status" class="error-message">
+    <transition
+      enter-active-class="animated fadeInUp shake"
+      leave-active-class="animated fadeOutDown">
+      <div
+        v-show="!error.status"
+        class="error-message">
         <span>{{ error.value }}</span>
       </div>
     </transition>
 
     <!-- Input Field -->
-    <form class="active-purple-4 mb-4" @submit.prevent="submit">
+    <form
+      class="active-purple-4 mb-4"
+      @submit.prevent="submit">
 
       <input
-      v-model="cityValue.value"
-      :class="{ input, error: !cityValue.valid }"
-      class="form-control"
-      name="cityInput"
-      type="text"
-      placeholder="Enter a city or zipcode"
-      aria-label="Search"
-      @keydown.enter.native="getWeatherNow">
+        v-model="cityValue.value"
+        :class="{ input, error: !cityValue.valid }"
+        class="form-control"
+        name="cityInput"
+        type="text"
+        placeholder="Enter a city or zipcode"
+        aria-label="Search"
+        @keydown.enter.native="getWeatherNow">
 
     </form>
 
     <!-- Button Field -->
-    <div class="mt-3" id="buttons">
+    <div
+      id="buttons"
+      class="mt-3">
 
       <button
-       v-if="locationStatus"
-       type="button"
-       class="btn btn-outline-primary"
-       @click="getCurrentWeather">
+        type="button"
+        class="btn btn-outline-primary"
+        @click="getCurrentWeather">
         Current Location
       </button>
 
       <button
-       type="button"
-       class="btn btn-outline-primary"
-       @click="getWeatherNow">
+        type="button"
+        class="btn btn-outline-primary"
+        @click="getWeatherNow">
         Search Location
       </button>
     </div>
 
     <!-- Modal -->
-    <modal v-show="isModalVisible" @close="closeModal">
+    <modal
+      v-show="isModalVisible"
+      @close="closeModal">
 
       <div slot="header">
 
-        <h1 v-if="weatherInfo" id="city-name">
+        <h1
+          v-if="weatherInfo"
+          id="city-name">
           {{ weatherDataNow.name }}
         </h1>
 
-        <h4 v-if="weatherInfo" id="dateNow">
+        <h4
+          v-if="weatherInfo"
+          id="dateNow">
           {{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}
         </h4>
 
@@ -62,7 +75,7 @@
         <div id="current-temp">
 
           <!--
-          <img 
+          <img
            width="150"
            :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'">
            -->
@@ -98,19 +111,23 @@
       <div slot="footer">
 
         <router-link :to="{ path: 'City' }">
-          <button type="button" class="btn btn-secondary">
+          <button
+            type="button"
+            class="btn btn-secondary">
             Forecast
           </button>
         </router-link>
 
         <router-link :to="{ path: 'Locations' }">
-          <button type="button" class="btn btn-primary">
+          <button
+            type="button"
+            class="btn btn-primary">
             Full Details
           </button>
         </router-link>
 
       </div>
-      
+
     </modal>
     <!-- End modal -->
 
@@ -120,10 +137,9 @@
 import WeatherService from '@/services/WeatherService';
 import modal from '@/components/Modal.vue';
 import moment from 'moment';
-import { mapState, mapMutations } from 'vuex';
+// import { mapState, mapMutations } from 'vuex';
 
-const zipRegExp = '';
-const Ascii = '';
+const zipRegExp = /^\d{5}(?:[-\s]\d{4})?$/;
 
 export default {
   name: 'Search',
@@ -142,15 +158,9 @@ export default {
         status: false,
       },
       isModalVisible: false, // Modal data
-      cityInput: '', // Variable for user input
       weatherDataNow: [], // Array to hold called data from weatherService API
-      // moment,
-      // hasData: false, // If function calls data
-      // locationStatus: true, // If browser is able to call geolocation API
-      // locationError: false, // No location data will return false
-      // inputError: false,
-      // error: '', // Variable for error messages
-      // cityId: '',
+      moment,
+      cityId: '',
       // weatherForecast: [],
     };
   },
@@ -161,62 +171,58 @@ export default {
       }
       return '';
     },
-    ...mapState({
+    /* ...mapState({
       unitStatus: state => state.unitStatus,
-    }),
+    }), */
   },
-  created: {
-    async getWeatherNow() {
-      const response = await WeatherService.getWeatherNow({
-        city: 'brooklyn',
-      });
-      this.weatherDataNow = response.data;
+  watch: {
+    'cityValue.value': function (value) {
+      this.validate(value);
     },
+  },
+  beforeMount() {
+    this.getCurrentWeather();
   },
   methods: {
     // Calls weatherService API to get weather based on user input
     async getWeatherNow() {
-      // Temporary error checking method
-      // does not change data if error, calls error using 'hasData'. logs message to 'error'
-
-      if (this.cityInput === '' || this.cityInput < 2 || this.cityInput === undefined) {
-        this.weatherDataNow = '';
-        this.hasData = false;
-        this.error = 'Please enter a word.';
-      }
-
-      // If user input is not a number/zip search data for cityname
-      if (Number.isInteger(this.cityInput) === false) {
+      if (this.cityValue.zip === false) {
         try {
           const response = await WeatherService.getWeatherNow({
-            city: this.cityInput,
+            city: this.cityValue.value,
           });
-          this.hasData = true;
-          this.$store.commit('addCity', {
+
+          this.weatherDataNow = response.data;
+
+          // Line To Add To Vuex
+          /* this.$store.commit('addCity', {
             id: response.data.id,
             data: response.data,
-          });
+          }); */
+
           this.showModal();
-          this.isModalVisible = true;
         } catch (error) {
-          this.locationError = true;
-          this.error = 'The city name you entered could not be found.';
+          this.error.status = true;
+          this.error.value = 'The city name you entered could not be found.';
         }
       } else {
         try {
           const response = await WeatherService.getCurrentWeatherByZip({
-            zip: this.cityInput,
+            zip: this.cityValue.value,
           });
-          this.hasData = true;
-          this.$store.commit('addCity', {
+
+          this.weatherDataNow = response.data;
+
+          // Line To Add To Vuex
+          /* this.$store.commit('addCity', {
             id: response.data.id,
             data: response.data,
-          });
+          }); */
+
           this.showModal();
-          this.isModalVisible = true;
         } catch (error) {
-          this.hasData = false;
-          this.error = 'Invalid text';
+          this.error.status = true;
+          this.error.value = 'Invalid text';
         }
       }
     },
@@ -224,10 +230,10 @@ export default {
     // Calls weatherService API to get weather based on geolocation
     async getCurrentWeather() {
       if (!window.navigator.geolocation) {
-        this.locationStatus = false;
-        this.hasData = false;
+        this.error.status = true;
+        this.error.value = 'Unable to use location, type manually.';
       } else {
-        const newPosition = await new Promise((resolve, reject) => {
+        const newPosition = await new Promise((resolve) => {
           window.navigator.geolocation.getCurrentPosition(
             (position) => {
               resolve({
@@ -235,8 +241,9 @@ export default {
                 longitude: position.coords.longitude,
               });
             },
-            () => {
-              reject('no position available');
+            (error) => {
+              this.error.status = true;
+              this.error.value = `${error}: no position available`;
             },
           );
         });
@@ -245,35 +252,25 @@ export default {
           lat: newPosition.latitude,
           lon: newPosition.longitude,
         });
-        this.hasData = true;
-        this.$store.commit('addCity', {
+
+        /* this.$store.commit('addCity', {
           id: response.data.id,
           data: response.data,
-        });
+        }); */
+
         this.cityId = response.data.id;
+
         this.weatherDataNow = response.data;
+
         this.showModal();
       }
     },
-
-    // Add errors to view
-    addError() {
-      if (this.inputError === true) {
-        this.error = 'Please enter a word.';
-      }
-      if (this.locationError === true) {
-        this.error = 'The city name you entered could not be found.';
-      }
-      setTimeout(() => {
-        this.error = '';
-        this.inputError = false;
-        this.locationError = false;
-      }, 3000);
-    },
     submit() {
+      this.validate(this.cityValue.value);
       if (this.cityValue.valid === true) {
         this.error.status = false;
-        // getWeatherNow with error checks
+        this.error.value = '';
+        this.getWeatherNow();
       } else {
         this.error.status = true;
         this.error.value = 'Invalid City';
@@ -292,11 +289,17 @@ export default {
 
     // General validation
     validate(value) {
-      if (type === 'email') {
-        this.email.valid = this.isEmail(value);
+      if (this.cityValue.value === '' || this.cityValue.value < 2 || this.cityValue.value === undefined) {
+        this.cityValue.valid = false;
+        this.error.status = true;
+        this.error.value = 'Please enter a City/Location.';
+      } else {
+        this.cityValue.zip = this.isZip(value);
+        this.error.status = false;
+        this.error.value = '';
       }
     },
-    // Check for valid email
+    // Check for valid zip
     isZip(value) {
       return zipRegExp.test(value);
     },
@@ -308,11 +311,6 @@ addCity: function() {
 deleteCity: function(id) {
   this.$store.dispatch('deleteCity', id);
 }, */
-  },
-  watch: {
-    'email.value': function (value) {
-      this.validate('email', value);
-    },
   },
 };
 </script>

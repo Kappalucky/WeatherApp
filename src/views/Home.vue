@@ -61,7 +61,7 @@ export default {
       this.$store.commit('changeUnitStatus', {
         status: this.unitStatus,
       });
-    }
+    },
     // Uses temp attribute from weather data
   },
 };
