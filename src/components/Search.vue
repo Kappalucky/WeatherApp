@@ -57,13 +57,11 @@
       <div slot="header">
 
         <h1
-          v-if="weatherInfo"
           id="city-name">
           {{ weatherDataNow.name }}
         </h1>
 
         <h5
-          v-if="weatherInfo"
           id="dateNow">
           {{ moment.unix(weatherDataNow.dt).utc().format("dddd, MMMM Do") }}
         </h5>
@@ -83,8 +81,8 @@
               </div>
               <div
                 id="temp-now">
-                <span v-if="weatherInfo">{{ weatherDataNow.main.temp }}°
-                  <span>K</span>
+                <span>{{ convertTemp(weatherDataNow.main.temp) }}°
+                  <span>{{ unitStatus.temp }}</span>
                 </span>
               </div>
             </div>
@@ -94,18 +92,18 @@
               id="temp-high"
               class="col">
               <p>High</p>
-              <small v-if="weatherInfo">
-                {{ weatherDataNow.main.temp_max }}
-                <span>°F</span>
+              <small>
+                {{ convertTemp(weatherDataNow.main.temp_max) }}°
+                <span>{{ unitStatus.temp }}</span>
               </small>
             </div>
             <div
               id="temp-low"
               class="col">
               <p>Low</p>
-              <small v-if="weatherInfo">
-                {{ weatherDataNow.main.temp_min }}
-                <span>°F</span>
+              <small>
+                {{ convertTemp(weatherDataNow.main.temp_min) }}°
+                <span>{{ unitStatus.temp }}</span>
               </small>
             </div>
           </div>
@@ -114,7 +112,7 @@
 
       <div slot="footer">
 
-        <router-link :to="{ path: 'City' }">
+        <router-link :to="{ name: 'City', params: { id: weatherDataNow.id, data: weatherDataNow } }">
           <button
             type="button"
             class="btn btn-secondary">
@@ -165,19 +163,12 @@ export default {
       weatherDataNow: [], // Array to hold called data from weatherService API
       moment,
       cityId: '',
-      // weatherForecast: [],
+      unitStatus: {
+        temp: 'F',
+        speed: 'mph',
+        distance: 'mi',
+      },
     };
-  },
-  computed: {
-    weatherInfo() {
-      if (this.weatherDataNow.weather) {
-        return this.weatherDataNow;
-      }
-      return '';
-    },
-    /* ...mapState({
-      unitStatus: state => state.unitStatus,
-    }), */
   },
   watch: {
     'cityValue.value': function (value) {
@@ -306,6 +297,15 @@ export default {
     // Check for valid zip
     isZip(value) {
       return zipRegExp.test(value);
+    },
+    convertTemp(temp) {
+      if (this.unitStatus.temp === 'F') {
+        return ((temp * (9 / 5)) - (459.67)).toFixed(0);
+      }
+      if (this.unitStatus.temp === 'C') {
+        return (temp - 273.15).toFixed(0);
+      }
+      return temp.toFixed(0);
     },
     // Vuex implementation
     /* ...mapMutations(['addCity', 'addCityData']),
