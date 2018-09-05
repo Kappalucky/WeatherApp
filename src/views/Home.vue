@@ -35,6 +35,7 @@
 // @ is an alias to /src
 import ImageService from '@/services/ImageService';
 import Search from '@/components/Search.vue';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
@@ -51,22 +52,17 @@ export default {
     this.getRandom();
   },
   methods: {
+    ...mapMutations(['changeUnitStatus']),
     async getRandom() {
       const response = await ImageService.getRandom();
       this.backgroundLink = response.data.urls.full;
     },
-    // Uses temp attribute from weather data
-    convertTemp(temp) {
-      // Kelvin to Fahrenheit
-      if (this.unitStatus === 'F') {
-        return ((temp * (9 / 5)) - 459.67).toFixed(0);
-        // Kelvin to Celsius
-      } else if (this.unitStatus === 'C') {
-        return (temp - 273.15).toFixed(0);
-      }
-      // Default to Kelvin
-      return temp.toFixed(0);
+    changeStatus() {
+      this.$store.commit('changeUnitStatus', {
+        status: this.unitStatus,
+      });
     },
+    // Uses temp attribute from weather data
   },
 };
 </script>

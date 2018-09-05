@@ -24,7 +24,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
-      path: '/city',
+      path: '/city/:id',
       name: 'City',
       component: City,
     },
