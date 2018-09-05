@@ -86,15 +86,6 @@ export default {
         return (temperature - ((100 - this.data.main.humidity) / 5)).toFixed(0);
       }
     },
-    convertTemp(temp) {
-      if (this.unitStatus.temp === 'F') {
-        return ((temp * (9 / 5)) - (459.67)).toFixed(0);
-      }
-      if (this.unitStatus.temp === 'C') {
-        return (temp - 273.15).toFixed(0);
-      }
-      return temp.toFixed(0);
-    },
   },
 };
 </script>

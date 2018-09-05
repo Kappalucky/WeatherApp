@@ -2,7 +2,7 @@
   <section id="city">
     <new-search/>
     <info-banner :data="weatherData"/>
-    <current-temp/>
+    <current-temp :data="weatherData"/>
     <!--<time-chart/>
     <weather-map/>-->
     <week-forecast/>
