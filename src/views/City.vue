@@ -1,7 +1,7 @@
 <template>
   <section id="city">
     <new-search/>
-    <info-banner/>
+    <info-banner :data="weatherData"/>
     <current-temp/>
     <!--<time-chart/>
     <weather-map/>-->
@@ -45,6 +45,12 @@ export default {
     WeatherMap,
     WeekForecast,
     NewSearch,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      weatherData: this.$route.params.data,
+    };
   },
 };
 </script>

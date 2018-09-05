@@ -27,6 +27,7 @@ export default new Router({
       path: '/city/:id',
       name: 'City',
       component: City,
+      children: [{ path: '/city', redirect: { name: 'home' } }],
     },
     /* {
       path: '/city/:id',
