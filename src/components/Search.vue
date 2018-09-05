@@ -6,8 +6,8 @@
       enter-active-class="animated fadeInUp shake"
       leave-active-class="animated fadeOutDown">
       <div
-        v-show="!error.status"
-        class="error-message">
+        v-show="error.status === true"
+        class="error error-message">
         <span>{{ error.value }}</span>
       </div>
     </transition>
@@ -19,7 +19,7 @@
 
       <input
         v-model="cityValue.value"
-        :class="{ input, error: !cityValue.valid }"
+        :class="{ input, error: error.status === true }"
         class="form-control"
         name="cityInput"
         type="text"
@@ -62,50 +62,54 @@
           {{ weatherDataNow.name }}
         </h1>
 
-        <h4
+        <h5
           v-if="weatherInfo"
           id="dateNow">
-          {{ moment.unix(weatherDataNow.dt).utc().format("ddd, hA") }}
-        </h4>
+          {{ moment.unix(weatherDataNow.dt).utc().format("dddd, MMMM Do") }}
+        </h5>
 
       </div>
 
       <div slot="body">
-
-        <div id="current-temp">
-
-          <!--
-          <img
-           width="150"
-           :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'">
-           -->
-
-          <div id="temp-now">
-            <span v-if="weatherInfo">{{ weatherDataNow.main.temp }}°
-              <span>K</span>
-            </span>
+        <div class="container">
+          <div class="row">
+            <div
+              id="current-temp"
+              class="col">
+              <div
+                id="weather-icon">
+                <img
+                  :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'">
+              </div>
+              <div
+                id="temp-now">
+                <span v-if="weatherInfo">{{ weatherDataNow.main.temp }}°
+                  <span>K</span>
+                </span>
+              </div>
+            </div>
           </div>
-
-          <div id="temp-range">
-
-            <p>High/Low</p>
-
-            <small v-if="weatherInfo">
-              {{ weatherDataNow.main.temp_max }}
-              <span>°F</span>
-            </small>
-
-            <p>/</p>
-
-            <small v-if="weatherInfo">
-              {{ weatherDataNow.main.temp_min }}
-              <span>°F</span>
-            </small>
-
+          <div class="row">
+            <div
+              id="temp-high"
+              class="col">
+              <p>High</p>
+              <small v-if="weatherInfo">
+                {{ weatherDataNow.main.temp_max }}
+                <span>°F</span>
+              </small>
+            </div>
+            <div
+              id="temp-low"
+              class="col">
+              <p>Low</p>
+              <small v-if="weatherInfo">
+                {{ weatherDataNow.main.temp_min }}
+                <span>°F</span>
+              </small>
+            </div>
           </div>
-
         </div>
-
       </div>
 
       <div slot="footer">
@@ -336,5 +340,24 @@ deleteCity: function(id) {
 
 form .error {
   border-color: #e94b35 !important;
+}
+.error-message {
+  color: #e94b35;
+  padding-bottom: 0.4em;
+}
+#current-temp {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 2em;
+}
+#weather-icon img {
+  width: 100px;
+  height: 100px;
+}
+#temp-now {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
