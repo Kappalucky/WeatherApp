@@ -110,4 +110,10 @@ export default {
   position: relative;
   padding: 20px 10px;
 }*/
+.modal {
+  justify-content: center;
+}
+.modal-footer {
+  justify-content: center;
+}
 </style>

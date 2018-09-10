@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default () =>
   axios.create({
-    baseURL: 'http://api.unsplash.com/photos',
+    baseURL: 'https://api.unsplash.com/photos',
     withCredentials: false,
     headers: {
       Accept: 'application/json',

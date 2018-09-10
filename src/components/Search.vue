@@ -120,13 +120,13 @@
           </button>
         </router-link>
 
-        <router-link :to="{ path: 'Locations' }">
+        <!--<router-link :to="{ path: 'Locations' }">
           <button
             type="button"
             class="btn btn-primary">
             Full Details
           </button>
-        </router-link>
+        </router-link>-->
 
       </div>
 
@@ -171,7 +171,7 @@ export default {
     };
   },
   watch: {
-    'cityValue.value': function (value) {
+    'cityValue.value': function(value) {
       this.validate(value);
     },
   },
@@ -228,15 +228,15 @@ export default {
         this.error.status = true;
         this.error.value = 'Unable to use location, type manually.';
       } else {
-        const newPosition = await new Promise((resolve) => {
+        const newPosition = await new Promise(resolve => {
           window.navigator.geolocation.getCurrentPosition(
-            (position) => {
+            position => {
               resolve({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
               });
             },
-            (error) => {
+            error => {
               this.error.status = true;
               this.error.value = `${error}: no position available`;
             },
@@ -284,7 +284,11 @@ export default {
 
     // General validation
     validate(value) {
-      if (this.cityValue.value === '' || this.cityValue.value < 2 || this.cityValue.value === undefined) {
+      if (
+        this.cityValue.value === '' ||
+        this.cityValue.value < 2 ||
+        this.cityValue.value === undefined
+      ) {
         this.cityValue.valid = false;
         this.error.status = true;
         this.error.value = 'Please enter a City/Location.';
@@ -300,7 +304,7 @@ export default {
     },
     convertTemp(temp) {
       if (this.unitStatus.temp === 'F') {
-        return ((temp * (9 / 5)) - (459.67)).toFixed(0);
+        return (temp * (9 / 5) - 459.67).toFixed(0);
       }
       if (this.unitStatus.temp === 'C') {
         return (temp - 273.15).toFixed(0);

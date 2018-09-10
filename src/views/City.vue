@@ -1,15 +1,15 @@
 <template>
   <section id="city">
     <new-search/>
-    <info-banner/>
-    <current-temp/>
+    <info-banner :data="weatherData"/>
+    <current-temp :data="weatherData"/>
     <!--<time-chart/>
     <weather-map/>-->
-    <week-forecast/>
+    <week-forecast :city-id="id"/>
     <div id="see_more">
       <!--Link to page with full forcast info-->
       <!--Link to see page with multiple city data-->
-      <router-link :to="{ path: 'City' }">
+      <!--<router-link :to="{ path: 'City' }">
         <button
           type="button"
           class="btn btn-secondary">
@@ -22,7 +22,7 @@
           class="btn btn-primary">
           compare to other locations
         </button>
-      </router-link>
+      </router-link>-->
     </div>
   </section>
 </template>
@@ -45,6 +45,21 @@ export default {
     WeatherMap,
     WeekForecast,
     NewSearch,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      weatherData: this.$route.params.data,
+      newData: {},
+    };
+  },
+  computed: {
+    newData() {
+      return this.$store.getters.getCities;
+    },
+  },
+  methods: {
+    
   },
 };
 </script>

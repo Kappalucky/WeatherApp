@@ -3,18 +3,19 @@
     <div id="title">
       <span id="current">
         <span id="weather-icon">
-          <!--<i id="'owf owf-' + weatherDataNow.cod"/>-->
-          <img src="https://png.icons8.com/metro/100/000000/sun.png">
+          <i id="'owf owf-' + data.cod"/>
+          <img
+            :src="'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png'">
         </span>
         <span id="temp-description">
-          <span id="temp-sum">87˚ Description word</span>
+          <span id="temp-sum"><span>{{ convertTemp(data.main.temp) }}˚</span><span style="paddingLeft: 5px">{{ data.weather[0].description }}</span></span>
           <span id="high-low">
             <span>
               <span id="label">
                 Feels Like:
               </span>
               <span id="value">
-                84˚
+                {{ convertTemp(data.main.temp) }}˚
               </span>
             </span>
             <span>
@@ -22,7 +23,7 @@
                 Low:
               </span>
               <span id="value">
-                77˚
+                {{ convertTemp(data.main.temp_min) }}˚
               </span>
             </span>
             <span>
@@ -30,14 +31,14 @@
                 High:
               </span>
               <span id="value">
-                89˚
+                {{ convertTemp(data.main.temp_max) }}˚
               </span>
             </span>
           </span>
         </span>
       </span>
       <span id="full-description">
-        It's hot my guy!
+        {{ weatherMessage(convertTemp(data.main.temp)) }}
       </span>
     </div>
   </section>
@@ -45,6 +46,40 @@
 <script>
 export default {
   name: 'CurrentTemp',
+  props: [
+    'data',
+  ],
+  data() {
+    return {
+      unitStatus: {
+        temp: 'F',
+      },
+    };
+  },
+  methods: {
+    convertTemp(temp) {
+      if (this.unitStatus.temp === 'F') {
+        return ((temp * (9 / 5)) - (459.67)).toFixed(0);
+      }
+      if (this.unitStatus.temp === 'C') {
+        return (temp - 273.15).toFixed(0);
+      }
+      return temp.toFixed(0);
+    },
+    weatherMessage(temp) {
+      if (temp >= 76) {
+        return "It's hot my guy!";
+      }
+      if (temp >= 68 && temp <= 75) {
+        return "It's pretty cool";
+      }
+      if (temp >= 55 && temp <= 67) {
+        return "Whooo it's getting cold!";
+      }
+
+      return "It's brick ****!, Good Luck";
+    },
+  },
 };
 </script>
 
@@ -52,7 +87,7 @@ export default {
 #current-temp {
   margin: 0 auto;
   width: 100%;
-  height: 200px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,14 +104,14 @@ export default {
   font-family: 'Nixie one';
 }
 #weather-icon {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   display: inline-block;
   margin: 3px 10px 3px 6px;
 }
 #weather-icon img {
-  height: 60px;
-  width: 60px;
+  height: 100px;
+  width: 100px;
 }
 #temp-description {
   font-weight: 600;

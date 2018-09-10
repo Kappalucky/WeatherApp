@@ -7,11 +7,6 @@ export default new Vuex.Store({
   state: {
     unitStatus: '', // Default to Fahrenheit
     cities: [
-      {
-        id: null,
-        data: [],
-        forecast: [],
-      },
       /* cityId: '',
       weatherData: [],
       forecastData: [], */

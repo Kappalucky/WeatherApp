@@ -1,16 +1,23 @@
 <template>
   <header id="new-search">
     <div class="bar">
-      <div class="search">
+      <form
+        class="active-purple-4 mb-4 search"
+        @submit.prevent="submit">
         <div
           id="geolocation"
           class="mx-2">
-          <button
-            type="button"
-            @click="getCurrentWeather"><font-awesome-icon icon="location-arrow"/></button>
+          <!--Temporary Link reroute-->
+          <router-link :to="{ path: '/' }">
+            <button
+              type="button"
+              @click="getCurrentWeather"><font-awesome-icon icon="location-arrow"/>
+            </button>
+          </router-link>
         </div>
         <input
-          v-model="cityInput"
+          v-model="cityValue.value"
+          :class="{ input, error: error.status === true }"
           class="form-control"
           name="cityInput"
           type="text"
@@ -20,11 +27,15 @@
         <div
           id="search-button"
           class="mx-2">
-          <button
-            type="button"
-            @click="getCurrentWeather"><font-awesome-icon icon="search"/></button>
+          <!--Temporary Link reroute-->
+          <router-link :to="{ path: '/' }">
+            <button
+              type="button"
+              @click="getWeatherNow"><font-awesome-icon icon="search"/>
+            </button>
+          </router-link>
         </div>
-      </div>
+      </form>
       <div class="options">
         <div class="dropdown">
           <div
@@ -48,65 +59,80 @@
 
 <script>
 import WeatherService from '@/services/WeatherService';
+import { mapState, mapMutations } from 'vuex';
 import moment from 'moment';
+const zipRegExp = /^\d{5}(?:[-\s]\d{4})?$/;
 
 export default {
   name: 'NewSearch',
   data() {
     return {
-      moment,
-      cityInput: '',
-      hasData: false,
-      locationStatus: true,
-      locationError: false,
-      inputError: false,
-      error: '',
+      cityValue: {
+        value: '',
+        valid: true,
+        zip: false,
+      },
+      error: {
+        value: '',
+        status: false,
+      },
       weatherDataNow: [],
+      moment,
+      unitStatus: {
+        temp: 'F',
+        speed: 'mph',
+        distance: 'mi',
+      },
     };
   },
+  ...mapState({
+    cityData: state => state.cityData,
+    cities: state => state.cities,
+  }),
   methods: {
+    ...mapMutations(['ADD_CITY', 'addCityData']),
     async getWeatherNow() {
-      // Temporary error checking method
-      // does not change data if error, calls error using 'hasData'. logs message to 'error'
-      if (this.cityInput === '' || this.cityInput < 2 || this.cityInput === undefined) {
-        this.weatherDataNow = '';
-        this.hasData = false;
-        this.error = 'Please enter a word.';
-      }
-      // If user input is not a number/zip search data for cityname
-      if (Number.isInteger(this.cityInput) === false) {
+      if (this.cityValue.zip === false) {
         try {
           const response = await WeatherService.getWeatherNow({
-            city: this.cityInput,
+            city: this.cityValue.value,
           });
+
           this.weatherDataNow = response.data;
-          this.hasData = true;
-          this.isModalVisible = true;
+
+          this.$store.commit('ADD_CITY', {
+            id: response.data.id,
+            data: response.data,
+          });
         } catch (error) {
-          this.locationError = true;
-          this.error = 'The city name you entered could not be found.';
+          this.error.status = true;
+          this.error.value = 'The city name you entered could not be found.';
         }
       } else {
         try {
           const response = await WeatherService.getCurrentWeatherByZip({
-            zip: this.cityInput,
+            zip: this.cityValue.value,
           });
+
           this.weatherDataNow = response.data;
-          this.hasData = true;
-          this.isModalVisible = true;
+
+          this.$store.commit('ADD_CITY', {
+            id: response.data.id,
+            data: response.data,
+          });
         } catch (error) {
-          this.hasData = false;
-          this.error = 'Invalid text';
+          this.error.status = true;
+          this.error.value = 'Invalid text';
         }
       }
     },
     // Calls weatherService API to get weather based on geolocation
     async getCurrentWeather() {
       if (!window.navigator.geolocation) {
-        this.locationStatus = false;
-        this.hasData = false;
+        this.error.status = true;
+        this.error.value = 'Unable to use location, type manually.';
       } else {
-        const newPosition = await new Promise((resolve, reject) => {
+        const newPosition = await new Promise((resolve) => {
           window.navigator.geolocation.getCurrentPosition(
             (position) => {
               resolve({
@@ -114,8 +140,9 @@ export default {
                 longitude: position.coords.longitude,
               });
             },
-            () => {
-              reject('no position available');
+            (error) => {
+              this.error.status = true;
+              this.error.value = `${error}: no position available`;
             },
           );
         });
@@ -124,10 +151,45 @@ export default {
           lat: newPosition.latitude,
           lon: newPosition.longitude,
         });
+
+        this.$store.commit('addCity', {
+          id: response.data.id,
+          data: response.data,
+        });
+
         this.weatherDataNow = response.data;
-        this.hasData = true;
-        // this.showModal();
       }
+    },
+    submit() {
+      this.validate(this.cityValue.value);
+      if (this.cityValue.valid === true) {
+        this.error.status = false;
+        this.error.value = '';
+        this.getWeatherNow();
+      } else {
+        this.error.status = true;
+        this.error.value = 'Invalid City';
+      }
+    },
+    // General validation
+    validate(value) {
+      if (
+        this.cityValue.value === '' ||
+        this.cityValue.value < 2 ||
+        this.cityValue.value === undefined
+      ) {
+        this.cityValue.valid = false;
+        this.error.status = true;
+        this.error.value = 'Please enter a City/Location.';
+      } else {
+        this.cityValue.zip = this.isZip(value);
+        this.error.status = false;
+        this.error.value = '';
+      }
+    },
+    // Check for valid zip
+    isZip(value) {
+      return zipRegExp.test(value);
     },
   },
 };
@@ -163,5 +225,8 @@ export default {
 }
 .search #search-button {
   order: 2 !important;
+}
+form {
+  margin-top: auto;
 }
 </style>
