@@ -9,7 +9,7 @@
     <div id="see_more">
       <!--Link to page with full forcast info-->
       <!--Link to see page with multiple city data-->
-      <router-link :to="{ path: 'City' }">
+      <!--<router-link :to="{ path: 'City' }">
         <button
           type="button"
           class="btn btn-secondary">
@@ -22,7 +22,7 @@
           class="btn btn-primary">
           compare to other locations
         </button>
-      </router-link>
+      </router-link>-->
     </div>
   </section>
 </template>
