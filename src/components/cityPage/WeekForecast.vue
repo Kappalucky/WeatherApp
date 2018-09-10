@@ -40,7 +40,10 @@ import moment from 'moment';
 export default {
   name: 'WeekForecast',
   props: {
-    cityId: String,
+    cityId: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -87,7 +90,7 @@ export default {
     formatDate(date) {
       let day = moment.unix(date);
       day = day.format('dddd, ha');
-      console.log(day);
+      //console.log(day);
       return day;
     },
     convertTemp(temp) {

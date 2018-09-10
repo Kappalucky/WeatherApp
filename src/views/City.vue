@@ -50,7 +50,16 @@ export default {
     return {
       id: this.$route.params.id,
       weatherData: this.$route.params.data,
+      newData: {},
     };
+  },
+  computed: {
+    newData() {
+      return this.$store.getters.getCities;
+    },
+  },
+  methods: {
+    
   },
 };
 </script>

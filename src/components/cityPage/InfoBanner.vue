@@ -65,9 +65,12 @@
 <script>
 export default {
   name: 'InfoBanner',
-  props: [
-    'data',
-  ],
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       unitStatus: {
@@ -85,6 +88,7 @@ export default {
         const temperature = (this.data.main.temp - 273.15); // Converts Kelvin to Celsius
         return (temperature - ((100 - this.data.main.humidity) / 5)).toFixed(0);
       }
+      return 0;
     },
   },
 };

@@ -7,9 +7,13 @@
         <div
           id="geolocation"
           class="mx-2">
-          <button
-            type="button"
-            @click="getCurrentWeather"><font-awesome-icon icon="location-arrow"/></button>
+          <!--Temporary Link reroute-->
+          <router-link :to="{ path: '/' }">
+            <button
+              type="button"
+              @click="getCurrentWeather"><font-awesome-icon icon="location-arrow"/>
+            </button>
+          </router-link>
         </div>
         <input
           v-model="cityValue.value"
@@ -23,9 +27,13 @@
         <div
           id="search-button"
           class="mx-2">
-          <button
-            type="button"
-            @click="getWeatherNow"><font-awesome-icon icon="search"/></button>
+          <!--Temporary Link reroute-->
+          <router-link :to="{ path: '/' }">
+            <button
+              type="button"
+              @click="getWeatherNow"><font-awesome-icon icon="search"/>
+            </button>
+          </router-link>
         </div>
       </form>
       <div class="options">
@@ -51,6 +59,7 @@
 
 <script>
 import WeatherService from '@/services/WeatherService';
+import { mapState, mapMutations } from 'vuex';
 import moment from 'moment';
 const zipRegExp = /^\d{5}(?:[-\s]\d{4})?$/;
 
@@ -76,7 +85,12 @@ export default {
       },
     };
   },
+  ...mapState({
+    cityData: state => state.cityData,
+    cities: state => state.cities,
+  }),
   methods: {
+    ...mapMutations(['ADD_CITY', 'addCityData']),
     async getWeatherNow() {
       if (this.cityValue.zip === false) {
         try {
@@ -86,13 +100,10 @@ export default {
 
           this.weatherDataNow = response.data;
 
-          // Line To Add To Vuex
-          /* this.$store.commit('addCity', {
+          this.$store.commit('ADD_CITY', {
             id: response.data.id,
             data: response.data,
-          }); */
-
-          this.showModal();
+          });
         } catch (error) {
           this.error.status = true;
           this.error.value = 'The city name you entered could not be found.';
@@ -105,13 +116,10 @@ export default {
 
           this.weatherDataNow = response.data;
 
-          // Line To Add To Vuex
-          /* this.$store.commit('addCity', {
+          this.$store.commit('ADD_CITY', {
             id: response.data.id,
             data: response.data,
-          }); */
-
-          this.showModal();
+          });
         } catch (error) {
           this.error.status = true;
           this.error.value = 'Invalid text';
@@ -144,16 +152,12 @@ export default {
           lon: newPosition.longitude,
         });
 
-        /* this.$store.commit('addCity', {
+        this.$store.commit('addCity', {
           id: response.data.id,
           data: response.data,
-        }); */
-
-        this.cityId = response.data.id;
+        });
 
         this.weatherDataNow = response.data;
-
-        this.showModal();
       }
     },
     submit() {
