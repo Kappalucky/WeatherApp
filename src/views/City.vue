@@ -5,7 +5,7 @@
     <current-temp :data="weatherData"/>
     <!--<time-chart/>
     <weather-map/>-->
-    <week-forecast/>
+    <week-forecast :city-id="id"/>
     <div id="see_more">
       <!--Link to page with full forcast info-->
       <!--Link to see page with multiple city data-->

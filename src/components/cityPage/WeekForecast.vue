@@ -68,12 +68,44 @@
   </section>
 </template>
 <script>
+import WeatherService from '@/services/WeatherService';
+import moment from 'moment';
+
 export default {
   name: 'WeekForecast',
+  props: {
+    cityId: String,
+  },
   data() {
     return {
-
+      cityForecastData: [],
+      unitStatus: {
+        temp: 'F',
+        speed: 'mph',
+        distance: 'mi',
+      },
+      weeklyForecast: [],
     };
+  },
+  beforeMount() {
+    this.getForecast();
+  },
+  methods: {
+    async getForecast() {
+      const response = await WeatherService.getForecast({
+        id: this.cityId,
+      });
+      this.cityForecastData = response.data;
+    },
+    // Need to get every 9th element in cityForecastData.list array
+    // the day starts at 00:00:00 for the weather.
+    // Should equate to 5 items in weeklyForecast array.
+    // display items in forecast template
+    getDailyForecast() {
+      for (let i = 0; i <= this.cityForecastData.list.length; i * 9) {
+        this.weeklyForecast = this.cityForecastData.list.push();
+      }
+    },
   },
 };
 </script>
