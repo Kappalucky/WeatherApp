@@ -60,7 +60,7 @@ export default new Vuex.Store({
     deleteCity: (context, payload) => {
       context.commit('DELETE_CITY', payload);
     },
-    convertTemp(temp) {
+    /* convertTemp(temp) {
       // Kelvin to Fahrenheit
       if (this.state.unitStatus === 'F') {
         return (temp * (9 / 5) - 459.67).toFixed(0);
@@ -70,6 +70,6 @@ export default new Vuex.Store({
       }
       // Default to Kelvin
       return temp.toFixed(0);
-    },
+    }, */
   },
 });
