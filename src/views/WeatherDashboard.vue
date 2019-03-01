@@ -11,33 +11,46 @@
       <div class="row">
         <section class="col weatherCard">
           <div class="row">
-            <aside class="col-sm weatherCard-tempDetails">
+            <aside class="col-md weatherCard-tempDetails">
               <div class="tempDetails-location">LocationName{{LocationName}}</div>
-              <div class="tempDetails-currentTemp row">
-                <div class="currentTemp-image col-xs">Image{{Image}}</div>
-                <div class="currentTemp-temp col-xs">Temp{{Temperature}}</div>
+              <div class="tempDetails-currentTemp">
+                <div class="currentTemp-image">Image{{Image}}</div>
+                <div class="currentTemp-temp">Temp{{Temperature}}</div>
               </div>
               <div class="tempDetails-weather">Weather{{Weather}}</div>
               <div class="tempDetails-date">DayOfWeek{{dayOfWeek}}</div>
               <br>
               <div class="tempDetails-stats">
-                <div class="stats-wind row">
-                  <div class="wind-image col">Image{{windImage}}</div>
-                  <div class="wind-stat col">Stat{{windNumber}}</div>
+                <div class="stats">
+                  <div class="stats-wind">
+                    <div class="wind-image">Image{{windImage}}</div>
+                    <div class="wind-stat">Stat{{windNumber}}</div>
+                  </div>
+                  <div class="stats-humidity">
+                    <div class="humidity-image">Image{{humidityImage}}</div>
+                    <div class="humidity-stat">Stat{{humidityNumber}}</div>
+                  </div>
                 </div>
-                <div class="stats-humidity row">
-                  <div class="humidity-image col">Image{{humidityImage}}</div>
-                  <div class="humidity-stat col">Stat{{humidityNumber}}</div>
+                <br>
+                <div class="stats-tempRange">
+                  <div class="tempRange-high">High{{tempHigh}}</div>
+                  <div class="tempRange-low">Low{{tempLow}}</div>
                 </div>
-              </div>
-              <br>
-              <div class="tempDetails-tempRange row">
-                <div class="tempRange-high col">High{{tempHigh}}</div>
-                <div class="tempRange-low col">Low{{tempLow}}</div>
               </div>
             </aside>
-            <aside class="col-sm weatherCard-forecast">
-              <p>Forecast</p>
+            <aside class="col-md weatherCard-forecast list-group">
+              <template>
+                <a href="#" class="list-group-item list-group-item-action active">Cras justo odio</a>
+                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                <a
+                  href="#"
+                  class="list-group-item list-group-item-action disabled"
+                  tabindex="-1"
+                  aria-disabled="true"
+                >Vestibulum at eros</a>
+              </template>
             </aside>
           </div>
         </section>
@@ -55,65 +68,111 @@
 }
 .weatherCard-tempDetails {
   border: 1px solid black;
-  background: red;
 }
 .tempDetails-location {
   border: 1px solid black;
-  justify-content: center;
   text-align: center;
+  margin: 10px;
+  padding: 5px;
 }
 .tempDetails-currentTemp {
-  justify-content: space-around;
-  text-align: center;
-  margin: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 5px;
 }
 .currentTemp-image {
   border: 1px solid black;
+  padding: 25px;
+  height: 100px;
+  width: 100px;
+  margin-right: 1em;
 }
 .currentTemp-temp {
   border: 1px solid black;
+  font-size: 2em;
+  padding: 5px;
+  font-style: italic;
 }
 .tempDetails-weather {
   border: 1px solid black;
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .tempDetails-date {
   border: 1px solid black;
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .tempDetails-stats {
   border: 1px solid black;
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+  margin: auto;
+}
+.stats {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  padding: 10px;
 }
 .stats-wind {
   border: 1px solid black;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5px;
 }
 .wind-image {
   border: 1px solid black;
+  /*height: 25px;*/
+  /*width: 25px;*/
+  padding: 5px;
+  /*margin-right: 5px;*/
 }
 .wind-stat {
   border: 1px solid black;
+  padding: 10px;
+  margin-left: 2px;
 }
 .stats-humidity {
   border: 1px solid black;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5px;
 }
 .humidity-image {
   border: 1px solid black;
+  padding: 5px;
 }
 .humidity-stat {
   border: 1px solid black;
+  padding: 10px;
+  margin-left: 2px;
 }
-.tempDetails-tempRange {
+.stats-tempRange {
   border: 1px solid black;
+  padding: 25px;
 }
 .tempRange-high {
   border: 1px solid black;
+  padding: 10px;
 }
 .tempRange-low {
   border: 1px solid black;
+  padding: 10px;
 }
 .weatherCard-forecast {
   border: 1px solid black;
-  background: blue;
+  padding: 0;
+}
+
+.list-group > .list-group-item {
+  flex: 1;
 }
 </style>
 
