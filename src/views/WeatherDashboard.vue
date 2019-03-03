@@ -12,35 +12,46 @@
         <section class="col weatherCard">
           <div class="row">
             <aside class="col-md weatherCard-tempDetails">
-              <div class="tempDetails-location">LocationName{{LocationName}}</div>
+              <div class="tempDetails-location">{{weatherCard.name}}</div>
               <div class="tempDetails-currentTemp">
-                <div class="currentTemp-image">Image{{Image}}</div>
-                <div class="currentTemp-temp">Temp{{Temperature}}</div>
+                <div class="currentTemp-image">
+                  <img
+                    :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                  >
+                </div>
+                <div class="currentTemp-temp">Temp: {{weatherCard.main.temp}}</div>
               </div>
-              <div class="tempDetails-weather">Weather{{Weather}}</div>
-              <div class="tempDetails-date">DayOfWeek{{dayOfWeek}}</div>
+              <div class="tempDetails-weather">{{weatherCard.weather[0].description}}</div>
+              <div class="tempDetails-date">DayOfWeek: {{weatherCard.dt}}</div>
               <br>
               <div class="tempDetails-stats">
                 <div class="stats">
                   <div class="stats-wind">
-                    <div class="wind-image">Image{{windImage}}</div>
-                    <div class="wind-stat">Stat{{windNumber}}</div>
+                    <div class="wind-image">Image: {{weatherCard.wind.deg}}</div>
+                    <div class="wind-stat">Stat: {{weatherCard.wind.speed}}</div>
                   </div>
                   <div class="stats-humidity">
-                    <div class="humidity-image">Image{{humidityImage}}</div>
-                    <div class="humidity-stat">Stat{{humidityNumber}}</div>
+                    <div class="humidity-image">Image: {{humidityImage}}</div>
+                    <div class="humidity-stat">Stat: {{weatherCard.main.humidity}}</div>
                   </div>
                 </div>
                 <br>
                 <div class="stats-tempRange">
-                  <div class="tempRange-high">High{{tempHigh}}</div>
-                  <div class="tempRange-low">Low{{tempLow}}</div>
+                  <div class="tempRange-high">High: {{weatherCard.main.temp_max}}</div>
+                  <div class="tempRange-low">Low: {{weatherCard.main.temp_max}}</div>
                 </div>
               </div>
             </aside>
             <aside class="col-md weatherCard-forecast list-group">
               <template>
-                <a href="#" class="list-group-item list-group-item-action active">Cras justo odio</a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <span>Image{{Image}}</span>
+                  <span>DayofWeek{{dayOfWeek}}</span>
+                  <span class="list-temp">
+                    <span>Temp{{Temp}}</span>
+                    <span>Low{{tempLow}}</span>
+                  </span>
+                </a>
                 <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
                 <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
                 <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
@@ -56,6 +67,7 @@
         </section>
       </div>
     </section>
+    <button type="button" class="btn btn-outline-primary" @click="getWeatherNow()">Current Location</button>
     <!--<Footer/>-->
   </div>
 </template>
@@ -170,13 +182,26 @@
   border: 1px solid black;
   padding: 0;
 }
-
 .list-group > .list-group-item {
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-temp {
+  display: flex;
+  align-items: center;
+}
+.list-temp span:last-child {
+  margin-top: 30px;
+  margin-left: 4px;
 }
 </style>
 
 <script>
+import WeatherService from "@/services/WeatherService";
+import moment from "moment";
+
 export default {
   name: "WeatherDashboard",
   components: {
@@ -188,6 +213,32 @@ export default {
     return {
       weatherCard: []
     };
+  },
+  mounted() {
+    this.getWeatherNow();
+  },
+  methods: {
+    async getWeatherNow() {
+      const newPosition = await new Promise(resolve => {
+        window.navigator.geolocation.getCurrentPosition(
+          position => {
+            resolve({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            });
+          },
+          error => {
+            this.error.status = true;
+            this.error.value = `${error}: no position available`;
+          }
+        );
+      });
+      const response = await WeatherService.getCurrentWeather({
+        lat: newPosition.latitude,
+        lon: newPosition.longitude
+      });
+      this.weatherCard = response.data;
+    }
   }
 };
 </script>

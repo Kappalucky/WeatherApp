@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     unitStatus: '', // Default to Fahrenheit
+    weatherDataNow: [],
     cities: [
       /* cityId: '',
       weatherData: [],
@@ -50,6 +51,9 @@ export default new Vuex.Store({
       this.state.unitStatus = payload.status;
     }, */
   },
+  FILLWEATHER(state, payload) {
+    state.weatherDataNow.push(payload);
+  },
   actions: {
     addCity: (context, payload) => {
       context.commit('ADD_CITY', payload);
@@ -59,6 +63,9 @@ export default new Vuex.Store({
     },
     deleteCity: (context, payload) => {
       context.commit('DELETE_CITY', payload);
+    },
+    addData({ commit }, payload) {
+      commit('FILLWEATHER', payload);
     },
     /* convertTemp(temp) {
       // Kelvin to Fahrenheit

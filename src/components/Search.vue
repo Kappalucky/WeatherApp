@@ -1,22 +1,17 @@
 <template>
   <div id="search">
-
     <!-- Error Message Field -->
     <transition
       enter-active-class="animated fadeInUp shake"
-      leave-active-class="animated fadeOutDown">
-      <div
-        v-show="error.status === true"
-        class="error error-message">
+      leave-active-class="animated fadeOutDown"
+    >
+      <div v-show="error.status === true" class="error error-message">
         <span>{{ error.value }}</span>
       </div>
     </transition>
 
     <!-- Input Field -->
-    <form
-      class="active-purple-4 mb-4"
-      @submit.prevent="submit">
-
+    <form class="active-purple-4 mb-4" @submit.prevent="submit">
       <input
         v-model="cityValue.value"
         :class="{ input, error: error.status === true }"
@@ -25,81 +20,55 @@
         type="text"
         placeholder="Enter a city or zipcode"
         aria-label="Search"
-        @keydown.enter.native="getWeatherNow">
-
+        @keydown.enter.native="getWeatherNow"
+      >
     </form>
 
     <!-- Button Field -->
-    <div
-      id="buttons"
-      class="mt-3">
-
+    <div id="buttons" class="mt-3">
       <button
         type="button"
         class="btn btn-outline-primary"
-        @click="getCurrentWeather">
-        Current Location
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        @click="getWeatherNow">
-        Search Location
-      </button>
+        @click="getCurrentWeather"
+      >Current Location</button>
+      
+      <button type="button" class="btn btn-outline-primary" @click="getWeatherNow">Search Location</button>
     </div>
 
     <!-- Modal -->
-    <modal
-      v-show="isModalVisible"
-      @close="closeModal">
-
+    <modal v-show="isModalVisible" @close="closeModal">
       <div slot="header">
+        <h1 id="city-name">{{ weatherDataNow.name }}</h1>
 
-        <h1
-          id="city-name">
-          {{ weatherDataNow.name }}
-        </h1>
-
-        <h5
-          id="dateNow">
-          {{ moment.unix(weatherDataNow.dt).utc().format("dddd, MMMM Do") }}
-        </h5>
-
+        <h5 id="dateNow">{{ moment.unix(weatherDataNow.dt).utc().format("dddd, MMMM Do") }}</h5>
       </div>
 
       <div slot="body">
         <div class="container">
           <div class="row">
-            <div
-              id="current-temp"
-              class="col">
-              <div
-                id="weather-icon">
+            <div id="current-temp" class="col">
+              <div id="weather-icon">
                 <img
-                  :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'">
+                  :src="'http://openweathermap.org/img/w/' + weatherDataNow.weather[0].icon + '.png'"
+                >
               </div>
-              <div
-                id="temp-now">
-                <span>{{ convertTemp(weatherDataNow.main.temp) }}°
+              <div id="temp-now">
+                <span>
+                  {{ convertTemp(weatherDataNow.main.temp) }}°
                   <span>{{ unitStatus.temp }}</span>
                 </span>
               </div>
             </div>
           </div>
           <div class="row">
-            <div
-              id="temp-high"
-              class="col">
+            <div id="temp-high" class="col">
               <p>High</p>
               <small>
                 {{ convertTemp(weatherDataNow.main.temp_max) }}°
                 <span>{{ unitStatus.temp }}</span>
               </small>
             </div>
-            <div
-              id="temp-low"
-              class="col">
+            <div id="temp-low" class="col">
               <p>Low</p>
               <small>
                 {{ convertTemp(weatherDataNow.main.temp_min) }}°
@@ -111,13 +80,10 @@
       </div>
 
       <div slot="footer">
-
-        <router-link :to="{ name: 'City', params: { id: weatherDataNow.id, data: weatherDataNow } }">
-          <button
-            type="button"
-            class="btn btn-secondary">
-            Forecast
-          </button>
+        <router-link
+          :to="{ name: 'City', params: { id: weatherDataNow.id, data: weatherDataNow } }"
+        >
+          <button type="button" class="btn btn-secondary">Forecast</button>
         </router-link>
 
         <!--<router-link :to="{ path: 'Locations' }">
@@ -127,55 +93,52 @@
             Full Details
           </button>
         </router-link>-->
-
       </div>
-
     </modal>
     <!-- End modal -->
-
   </div>
 </template>
 <script>
-import WeatherService from '@/services/WeatherService';
-import modal from '@/components/Modal.vue';
-import moment from 'moment';
+import WeatherService from "@/services/WeatherService";
+import modal from "@/components/Modal.vue";
+import moment from "moment";
 // import { mapState, mapMutations } from 'vuex';
 
 const zipRegExp = /^\d{5}(?:[-\s]\d{4})?$/;
 
 export default {
-  name: 'Search',
+  name: "Search",
   components: {
-    modal,
+    modal
   },
   data() {
     return {
       cityValue: {
-        value: '',
+        value: "",
         valid: true,
-        zip: false,
+        zip: false
       },
       error: {
-        value: '',
-        status: false,
+        value: "",
+        status: false
       },
       isModalVisible: false, // Modal data
       weatherDataNow: [], // Array to hold called data from weatherService API
       moment,
-      cityId: '',
+      cityId: "",
       unitStatus: {
-        temp: 'F',
-        speed: 'mph',
-        distance: 'mi',
-      },
+        temp: "F",
+        speed: "mph",
+        distance: "mi"
+      }
     };
   },
   watch: {
-    'cityValue.value': function(value) {
+    "cityValue.value": function(value) {
       this.validate(value);
-    },
+    }
   },
-  beforeMount() {
+  mounted() {
     this.getCurrentWeather();
   },
   methods: {
@@ -184,7 +147,7 @@ export default {
       if (this.cityValue.zip === false) {
         try {
           const response = await WeatherService.getWeatherNow({
-            city: this.cityValue.value,
+            city: this.cityValue.value
           });
 
           this.weatherDataNow = response.data;
@@ -194,16 +157,16 @@ export default {
             id: response.data.id,
             data: response.data,
           }); */
-
+          this.$store.dispatch("addData", this.weatherDataNow);
           this.showModal();
         } catch (error) {
           this.error.status = true;
-          this.error.value = 'The city name you entered could not be found.';
+          this.error.value = "The city name you entered could not be found.";
         }
       } else {
         try {
           const response = await WeatherService.getCurrentWeatherByZip({
-            zip: this.cityValue.value,
+            zip: this.cityValue.value
           });
 
           this.weatherDataNow = response.data;
@@ -213,11 +176,11 @@ export default {
             id: response.data.id,
             data: response.data,
           }); */
-
+          this.$store.dispatch("addData", this.weatherDataNow);
           this.showModal();
         } catch (error) {
           this.error.status = true;
-          this.error.value = 'Invalid text';
+          this.error.value = "Invalid text";
         }
       }
     },
@@ -226,26 +189,26 @@ export default {
     async getCurrentWeather() {
       if (!window.navigator.geolocation) {
         this.error.status = true;
-        this.error.value = 'Unable to use location, type manually.';
+        this.error.value = "Unable to use location, type manually.";
       } else {
         const newPosition = await new Promise(resolve => {
           window.navigator.geolocation.getCurrentPosition(
             position => {
               resolve({
                 latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
+                longitude: position.coords.longitude
               });
             },
             error => {
               this.error.status = true;
               this.error.value = `${error}: no position available`;
-            },
+            }
           );
         });
 
         const response = await WeatherService.getCurrentWeather({
           lat: newPosition.latitude,
-          lon: newPosition.longitude,
+          lon: newPosition.longitude
         });
 
         /* this.$store.commit('addCity', {
@@ -264,11 +227,11 @@ export default {
       this.validate(this.cityValue.value);
       if (this.cityValue.valid === true) {
         this.error.status = false;
-        this.error.value = '';
+        this.error.value = "";
         this.getWeatherNow();
       } else {
         this.error.status = true;
-        this.error.value = 'Invalid City';
+        this.error.value = "Invalid City";
       }
     },
 
@@ -285,17 +248,17 @@ export default {
     // General validation
     validate(value) {
       if (
-        this.cityValue.value === '' ||
+        this.cityValue.value === "" ||
         this.cityValue.value < 2 ||
         this.cityValue.value === undefined
       ) {
         this.cityValue.valid = false;
         this.error.status = true;
-        this.error.value = 'Please enter a City/Location.';
+        this.error.value = "Please enter a City/Location.";
       } else {
         this.cityValue.zip = this.isZip(value);
         this.error.status = false;
-        this.error.value = '';
+        this.error.value = "";
       }
     },
     // Check for valid zip
@@ -303,14 +266,14 @@ export default {
       return zipRegExp.test(value);
     },
     convertTemp(temp) {
-      if (this.unitStatus.temp === 'F') {
+      if (this.unitStatus.temp === "F") {
         return (temp * (9 / 5) - 459.67).toFixed(0);
       }
-      if (this.unitStatus.temp === 'C') {
+      if (this.unitStatus.temp === "C") {
         return (temp - 273.15).toFixed(0);
       }
       return temp.toFixed(0);
-    },
+    }
     // Vuex implementation
     /* ...mapMutations(['addCity', 'addCityData']),
 addCity: function() {
@@ -319,7 +282,7 @@ addCity: function() {
 deleteCity: function(id) {
   this.$store.dispatch('deleteCity', id);
 }, */
-  },
+  }
 };
 </script>
 
