@@ -19,26 +19,57 @@
                     :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
                   >
                 </div>
-                <div class="currentTemp-temp">Temp: {{weatherCard.main.temp}}</div>
+                <div class="currentTemp-temp">
+                  {{weatherCard.main.temp}}
+                  <span>°{{unit}}</span>
+                </div>
               </div>
               <div class="tempDetails-weather">{{weatherCard.weather[0].description}}</div>
-              <div class="tempDetails-date">DayOfWeek: {{weatherCard.dt}}</div>
+              <div
+                class="tempDetails-date"
+              >{{moment.unix(weatherCard.dt).utc().format("dddd, MMMM Do")}}</div>
               <br>
               <div class="tempDetails-stats">
                 <div class="stats">
                   <div class="stats-wind">
-                    <div class="wind-image">Image: {{weatherCard.wind.deg}}</div>
-                    <div class="wind-stat">Stat: {{weatherCard.wind.speed}}</div>
+                    <div class="wind-image">
+                      <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="wind-stat">
+                      {{weatherCard.wind.speed}}
+                      <span>{{windUnit}}</span>
+                    </div>
                   </div>
                   <div class="stats-humidity">
-                    <div class="humidity-image">Image: {{humidityImage}}</div>
-                    <div class="humidity-stat">Stat: {{weatherCard.main.humidity}}</div>
+                    <div class="humidity-image">
+                      <img src="@/assets/img/humidity_icon.png">
+                    </div>
+                    <div class="humidity-stat">
+                      {{weatherCard.main.humidity}}
+                      <span>%</span>
+                    </div>
                   </div>
                 </div>
-                <br>
+                <div class="stats-space"></div>
                 <div class="stats-tempRange">
-                  <div class="tempRange-high">High: {{weatherCard.main.temp_max}}</div>
-                  <div class="tempRange-low">Low: {{weatherCard.main.temp_max}}</div>
+                  <div class="tempRange-high">
+                    <div class="high-image">
+                      <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="high-stat">
+                      {{weatherCard.main.temp_max}}
+                      <span>°{{unit}}</span>
+                    </div>
+                  </div>
+                  <div class="tempRange-low">
+                    <div class="low-image">
+                      <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="low-stat">
+                      {{weatherCard.main.temp_max}}
+                      <span>°{{unit}}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </aside>
@@ -74,18 +105,22 @@
 
 <style>
 .weatherCard {
-  border: 1px solid black;
-  border-radius: 25px;
+  border: 1px solid rgb(100, 99, 99);
+  border-radius: 15px;
   overflow: hidden;
+  font-family: "Raleway", "Roboto", sans-serif;
 }
 .weatherCard-tempDetails {
-  border: 1px solid black;
+  height: 100%;
+  width: 100%;
 }
 .tempDetails-location {
-  border: 1px solid black;
   text-align: center;
-  margin: 10px;
-  padding: 5px;
+  margin: 7px;
+  padding: 4px;
+  font-size: 3rem;
+  color: rgb(87, 85, 85);
+  text-transform: capitalize;
 }
 .tempDetails-currentTemp {
   display: flex;
@@ -96,36 +131,37 @@
   padding: 5px;
 }
 .currentTemp-image {
-  border: 1px solid black;
-  padding: 25px;
+  height: 100%;
+  margin-right: 1px;
+}
+.currentTemp-image > img {
   height: 100px;
   width: 100px;
-  margin-right: 1em;
 }
 .currentTemp-temp {
-  border: 1px solid black;
-  font-size: 2em;
-  padding: 5px;
-  font-style: italic;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+}
+.currentTemp-temp > span {
+  font-size: 54%;
 }
 .tempDetails-weather {
-  border: 1px solid black;
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  font-size: 1.5em;
+  text-transform: capitalize;
 }
 .tempDetails-date {
-  border: 1px solid black;
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  font-size: 1em;
 }
 .tempDetails-stats {
-  border: 1px solid black;
   display: flex;
   justify-content: space-evenly;
-  width: 80%;
-  margin: auto;
 }
 .stats {
   display: flex;
@@ -134,49 +170,78 @@
   padding: 10px;
 }
 .stats-wind {
-  border: 1px solid black;
   display: flex;
   flex-flow: row wrap;
   margin: 5px;
 }
 .wind-image {
-  border: 1px solid black;
-  /*height: 25px;*/
-  /*width: 25px;*/
-  padding: 5px;
-  /*margin-right: 5px;*/
+  margin: auto 0;
 }
 .wind-stat {
-  border: 1px solid black;
   padding: 10px;
-  margin-left: 2px;
+  font-size: 1.4em;
+}
+.wind-stat > span {
+  font-size: 50%;
+  text-transform: uppercase;
 }
 .stats-humidity {
-  border: 1px solid black;
   display: flex;
   flex-flow: row wrap;
   margin: 5px;
 }
 .humidity-image {
-  border: 1px solid black;
-  padding: 5px;
+  margin: auto 0;
+}
+.humidity-image > img {
+  height: 16px;
+  width: 16px;
 }
 .humidity-stat {
-  border: 1px solid black;
   padding: 10px;
-  margin-left: 2px;
+  font-size: 1.4em;
+}
+.humidity-stat > span {
+  font-size: 50%;
+}
+.stats-space {
+  margin: auto;
 }
 .stats-tempRange {
-  border: 1px solid black;
-  padding: 25px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  padding: 10px;
 }
 .tempRange-high {
-  border: 1px solid black;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5px;
+}
+.high-image {
+  margin: auto 0;
+}
+.high-stat {
   padding: 10px;
+  font-size: 1.4em;
+}
+.high-stat > span {
+  font-size: 70%;
 }
 .tempRange-low {
-  border: 1px solid black;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5px;
+}
+.low-image {
+  margin: auto 0;
+}
+.low-stat {
   padding: 10px;
+  font-size: 1.4em;
+}
+.low-stat > span {
+  font-size: 70%;
 }
 .weatherCard-forecast {
   border: 1px solid black;
@@ -211,7 +276,10 @@ export default {
   },
   data() {
     return {
-      weatherCard: []
+      weatherCard: [],
+      unit: "F",
+      windUnit: "mph",
+      moment
     };
   },
   mounted() {
