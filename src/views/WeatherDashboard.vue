@@ -66,32 +66,156 @@
                       <i class="fas fa-arrow-down"></i>
                     </div>
                     <div class="low-stat">
-                      {{weatherCard.main.temp_max}}
+                      {{weatherCard.main.temp_min}}
                       <span>°{{unit}}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </aside>
+            <!-- Temporary data until api connected-->
             <aside class="col-md weatherCard-forecast list-group">
               <template>
                 <a href="#" class="list-group-item list-group-item-action">
-                  <span>Image{{Image}}</span>
-                  <span>DayofWeek{{dayOfWeek}}</span>
-                  <span class="list-temp">
-                    <span>Temp{{Temp}}</span>
-                    <span>Low{{tempLow}}</span>
-                  </span>
+                  <div class="item-image">
+                    <img
+                      :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                    >
+                  </div>
+                  <div class="item-date">{{moment.unix(weatherCard.dt).utc().format("dddd")}}</div>
+                  <div class="item-temperatures">
+                    <div class="temperatures-high">
+                      <span class="high-image">
+                        <i class="fas fa-arrow-up"></i>
+                      </span>
+                      <span class="high-temp">
+                        {{weatherCard.main.temp_max}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                    <div class="temperatures-low">
+                      <span class="low-image">
+                        <i class="fas fa-arrow-down"></i>
+                      </span>
+                      <span class="low-temp">
+                        {{weatherCard.main.temp_min}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                  </div>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                <a
-                  href="#"
-                  class="list-group-item list-group-item-action disabled"
-                  tabindex="-1"
-                  aria-disabled="true"
-                >Vestibulum at eros</a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="item-image">
+                    <img
+                      :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                    >
+                  </div>
+                  <div class="item-date">{{moment.unix(weatherCard.dt).utc().format("dddd")}}</div>
+                  <div class="item-temperatures">
+                    <div class="temperatures-high">
+                      <span class="high-image">
+                        <i class="fas fa-arrow-up"></i>
+                      </span>
+                      <span class="high-temp">
+                        {{weatherCard.main.temp_max}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                    <div class="temperatures-low">
+                      <span class="low-image">
+                        <i class="fas fa-arrow-down"></i>
+                      </span>
+                      <span class="low-temp">
+                        {{weatherCard.main.temp_min}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="item-image">
+                    <img
+                      :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                    >
+                  </div>
+                  <div class="item-date">{{moment.unix(weatherCard.dt).utc().format("dddd")}}</div>
+                  <div class="item-temperatures">
+                    <div class="temperatures-high">
+                      <span class="high-image">
+                        <i class="fas fa-arrow-up"></i>
+                      </span>
+                      <span class="high-temp">
+                        {{weatherCard.main.temp_max}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                    <div class="temperatures-low">
+                      <span class="low-image">
+                        <i class="fas fa-arrow-down"></i>
+                      </span>
+                      <span class="low-temp">
+                        {{weatherCard.main.temp_min}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="item-image">
+                    <img
+                      :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                    >
+                  </div>
+                  <div class="item-date">{{moment.unix(weatherCard.dt).utc().format("dddd")}}</div>
+                  <div class="item-temperatures">
+                    <div class="temperatures-high">
+                      <span class="high-image">
+                        <i class="fas fa-arrow-up"></i>
+                      </span>
+                      <span class="high-temp">
+                        {{weatherCard.main.temp_max}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                    <div class="temperatures-low">
+                      <span class="low-image">
+                        <i class="fas fa-arrow-down"></i>
+                      </span>
+                      <span class="low-temp">
+                        {{weatherCard.main.temp_min}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="item-image">
+                    <img
+                      :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                    >
+                  </div>
+                  <div class="item-date">{{moment.unix(weatherCard.dt).utc().format("dddd")}}</div>
+                  <div class="item-temperatures">
+                    <div class="temperatures-high">
+                      <span class="high-image">
+                        <i class="fas fa-arrow-up"></i>
+                      </span>
+                      <span class="high-temp">
+                        {{weatherCard.main.temp_max}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                    <div class="temperatures-low">
+                      <span class="low-image">
+                        <i class="fas fa-arrow-down"></i>
+                      </span>
+                      <span class="low-temp">
+                        {{weatherCard.main.temp_min}}
+                        <span>°{{unit}}</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
               </template>
             </aside>
           </div>
@@ -244,7 +368,6 @@
   font-size: 70%;
 }
 .weatherCard-forecast {
-  border: 1px solid black;
   padding: 0;
 }
 .list-group > .list-group-item {
@@ -253,13 +376,22 @@
   justify-content: space-between;
   align-items: center;
 }
-.list-temp {
-  display: flex;
-  align-items: center;
+.item-image img {
+  height: 50px;
+  width: 50px;
 }
-.list-temp span:last-child {
-  margin-top: 30px;
-  margin-left: 4px;
+.item-date {
+  font-size: 2rem;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.item-temperatures {
+  font-size: 0.9em;
+  font-style: italic;
+}
+.high-temp span:last-child,
+.low-temp span:last-child {
+  font-size: 90%;
 }
 </style>
 
