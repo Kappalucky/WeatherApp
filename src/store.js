@@ -1,23 +1,30 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import WeatherService from '@/services/WeatherService';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-    unitStatus: '', // Default to Fahrenheit
-    weatherDataNow: [],
-    cities: [
-      /* cityId: '',
-      weatherData: [],
-      forecastData: [], */
-    ],
-  },
-  getters: {
-    getcities: state => state.cities,
-    getCityById: state => id => state.cities.find(item => item.id === id),
+    unitStatus: 'F',
+    weatherCard: [],
+    errors: {},
   },
   mutations: {
+    ADD_WEATHER_CARD(state, payload) {
+      if (state.weatherCard.length < 5) {
+        state.weatherCard.push(payload);
+      } else {
+        state.errors.weatherCard = "You've reached the max amount of cards you can have";
+      }
+    },
+    CLEAR_ERROR(state) {
+      state.errors = {};
+    },
+    ADD_ERROR(state, payload) {
+      state.errors = payload;
+    },
+    // Old Data Below
     ADD_CITY: (state, payload) => {
       const newCity = {
         id: payload.id,
@@ -36,47 +43,71 @@ export default new Vuex.Store({
       const index = state.cities.findIndex(city => city.id === payload);
       state.cities.splice(index, 1);
     },
-    /* addCity(state, payload) {
-      this.state.cities.cityId = payload.id;
-      state.cities.weatherData.push(payload.data);
-    },
-    addCityData(state, payload) {
-      // Add city data with id being the 'key' to find the data
-      state.cityData.push(payload);
-    },
-    addForecastData(state, payload) {
-      state.cities.forecastData.push(payload.data);
-    },
-    changeUnitStatus(state, payload) {
-      this.state.unitStatus = payload.status;
-    }, */
-  },
-  FILLWEATHER(state, payload) {
-    state.weatherDataNow.push(payload);
+    // Old Data Above
   },
   actions: {
-    addCity: (context, payload) => {
-      context.commit('ADD_CITY', payload);
-    },
-    toggleCity: (context, payload) => {
-      context.commit('TOGGLE_CITY', payload);
-    },
-    deleteCity: (context, payload) => {
-      context.commit('DELETE_CITY', payload);
-    },
-    addData({ commit }, payload) {
-      commit('FILLWEATHER', payload);
-    },
-    /* convertTemp(temp) {
-      // Kelvin to Fahrenheit
-      if (this.state.unitStatus === 'F') {
-        return (temp * (9 / 5) - 459.67).toFixed(0);
-        // Kelvin to Celsius
-      } else if (this.state.unitStatus === 'C') {
-        return (temp - 273.15).toFixed(0);
+    async getWeatherByName({ commit }, params) {
+      try {
+        const response = await WeatherService.getWeatherNow({
+          city: params,
+        });
+
+        commit('CLEAR_ERROR');
+        commit('ADD_WEATHER_CARD', response.data);
+      } catch (error) {
+        const e = 'name issue';
+        commit('ADD_ERROR', e);
       }
-      // Default to Kelvin
-      return temp.toFixed(0);
-    }, */
+    },
+    async getWeatherById({ commit }, params) {
+      try {
+        const response = await WeatherService.getCurrentWeatherById({
+          id: params,
+        });
+
+        commit('CLEAR_ERROR');
+        commit('ADD_WEATHER_CARD', response.data);
+      } catch (error) {
+        const e = 'id issue';
+        commit('ADD_ERROR', e);
+      }
+    },
+    async getWeatherByZip({ commit }, params) {
+      try {
+        const response = await WeatherService.getCurrentWeatherByZip({
+          zip: params,
+        });
+
+        commit('CLEAR_ERROR');
+        commit('ADD_WEATHER_CARD', response.data);
+      } catch (error) {
+        const e = 'zip issue';
+        commit('ADD_ERROR', e);
+      }
+    },
+    async getWeatherByGeolocation({ commit }) {
+      const newPosition = await new Promise((resolve, reject) => {
+        window.navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (error) => {
+            const e = 'location issue';
+            commit('ADD_ERROR', e);
+          },
+        );
+      });
+      const response = await WeatherService.getCurrentWeather({
+        lat: newPosition.latitude,
+        lon: newPosition.longitude,
+      });
+      commit('ADD_WEATHER_CARD', response.data);
+    },
   },
+  getters: {},
 });
+
+export default store;

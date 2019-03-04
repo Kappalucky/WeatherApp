@@ -1,15 +1,23 @@
 <template>
   <div>
     <!--<Navbar/>-->
-    <!--<Search/>-->
-    <section>
-      <h1 style="backgroundColor:grey">Search Component</h1>
+    <section class="navHold">Test</section>
+    <section class="container-fluid mt-2">
+      <div class="row">
+        <div class="col">
+          <Search/>
+        </div>
+      </div>
     </section>
     <br>
-    <section class="container">
+    <section class="container-fluid">
       <h1>Dashboard</h1>
       <div class="row">
-        <section class="col weatherCard">
+        <section
+          class="col-xs weatherCard"
+          v-for="weatherCard in getWeatherCards"
+          :key="weatherCard.index"
+        >
           <div class="row">
             <aside class="col-md weatherCard-tempDetails">
               <div class="tempDetails-location">{{weatherCard.name}}</div>
@@ -222,17 +230,37 @@
         </section>
       </div>
     </section>
-    <button type="button" class="btn btn-outline-primary" @click="getWeatherNow()">Current Location</button>
+    <section>
+      <div slot="footer">
+        <!--<router-link
+          :to="{ name: 'City', params: { id: weatherDataNow.id, data: weatherDataNow } }"
+        >
+          <button type="button" class="btn btn-secondary">Forecast</button>
+        </router-link>-->
+        <router-link :to="{ path: 'Locations' }">
+          <button type="button" class="btn btn-primary">Full Details</button>
+        </router-link>
+      </div>
+    </section>
     <!--<Footer/>-->
   </div>
 </template>
 
 <style>
+.navHold {
+  background-color: grey;
+}
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
 .weatherCard {
   border: 1px solid rgb(100, 99, 99);
   border-radius: 15px;
   overflow: hidden;
   font-family: "Raleway", "Roboto", sans-serif;
+  width: 100%;
+  margin: 10px 0;
 }
 .weatherCard-tempDetails {
   height: 100%;
@@ -397,48 +425,34 @@
 
 <script>
 import WeatherService from "@/services/WeatherService";
+import Search from "@/components/Search.vue";
 import moment from "moment";
 
 export default {
   name: "WeatherDashboard",
   components: {
-    // Search,
+    Search
     // Navbar,
     // Footer
   },
   data() {
     return {
-      weatherCard: [],
       unit: "F",
       windUnit: "mph",
+      name: "Shuzenji",
+      id: 5368361,
+      zip: 78626,
       moment
     };
   },
-  mounted() {
-    this.getWeatherNow();
-  },
-  methods: {
-    async getWeatherNow() {
-      const newPosition = await new Promise(resolve => {
-        window.navigator.geolocation.getCurrentPosition(
-          position => {
-            resolve({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            });
-          },
-          error => {
-            this.error.status = true;
-            this.error.value = `${error}: no position available`;
-          }
-        );
-      });
-      const response = await WeatherService.getCurrentWeather({
-        lat: newPosition.latitude,
-        lon: newPosition.longitude
-      });
-      this.weatherCard = response.data;
+  computed: {
+    getErrors() {
+      return this.$store.state.errors;
+    },
+    getWeatherCards() {
+      return this.$store.state.weatherCard;
     }
-  }
+  },
+  methods: {}
 };
 </script>
