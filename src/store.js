@@ -8,22 +8,20 @@ const store = new Vuex.Store({
   state: {
     unitStatus: 'F',
     weatherCard: [],
-    weatherForecast: {},
+    weatherForecast: [],
     errors: {},
   },
   mutations: {
     ADD_WEATHER_CARD(state, payload) {
-      this.dispatch('getForecast', payload.id);
       if (state.weatherCard.length < 5) {
-        // console.log(state.weatherCard.find(location => location.id === payload.id));
-
+        this.dispatch('getForecast', payload.id);
         state.weatherCard.unshift(payload);
       } else {
         state.errors.weatherCard = "You've reached the max amount of cards you can have";
       }
     },
     ADD_FORECAST(state, payload) {
-      state.weatherForecast[payload.city.id] = payload;
+      state.weatherForecast.unshift(payload);
     },
     CLEAR_ERROR(state) {
       state.errors = {};
@@ -62,6 +60,7 @@ const store = new Vuex.Store({
         commit('CLEAR_ERROR');
         commit('ADD_WEATHER_CARD', response.data);
       } catch (error) {
+        console.log(error);
         const e = 'name issue';
         commit('ADD_ERROR', e);
       }
@@ -75,13 +74,13 @@ const store = new Vuex.Store({
         commit('CLEAR_ERROR');
         commit('ADD_WEATHER_CARD', response.data);
       } catch (error) {
+        console.log(error);
         const e = 'id issue';
         commit('ADD_ERROR', e);
       }
     },
     async getWeatherByZip({ commit }, params) {
       try {
-        console.log(params);
         const response = await WeatherService.getCurrentWeatherByZip({
           zip: params,
         });
@@ -104,6 +103,7 @@ const store = new Vuex.Store({
             });
           },
           (error) => {
+            console.log(error);
             const e = 'location issue';
             commit('ADD_ERROR', e);
           },
@@ -124,6 +124,7 @@ const store = new Vuex.Store({
         commit('CLEAR_ERROR');
         commit('ADD_FORECAST', response.data);
       } catch (error) {
+        console.log(error);
         commit('ADD_ERROR', error);
       }
     },

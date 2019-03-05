@@ -60,10 +60,7 @@ export default {
         } else {
           this.error.status = false;
           this.error.value = "";
-          this.$store.dispatch(
-            "getWeatherByZip",
-            Number(this.inputValue.value)
-          );
+          this.$store.dispatch("getWeatherByZip", this.inputValue.value);
         }
       } else {
         this.error.status = true;
@@ -85,6 +82,8 @@ export default {
           this.inputValue.valid = true;
           this.error.status = false;
           this.error.value = "";
+        } else {
+          this.inputValue.valid = true;
         }
       }
     },

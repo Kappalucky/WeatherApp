@@ -15,8 +15,8 @@
       <div class="row">
         <section
           class="col-xs weatherCard"
-          v-for="weatherCard in getWeatherCards"
-          :key="weatherCard.index"
+          v-for="(weatherCard, index) in getWeatherCards"
+          :key="index"
         >
           <div class="row">
             <aside class="col-md weatherCard-tempDetails">
@@ -81,13 +81,10 @@
                 </div>
               </div>
             </aside>
-            <aside
-              class="col-md weatherCard-forecast list-group"
-              v-if="getForecast(weatherCard.id)"
-            >
-              <template v-for="(forecast, index) in getForecast(weatherCard.id).list">
+            <aside class="col-md weatherCard-forecast list-group" v-if="getWeatherForecast.length">
+              <template v-for="forecast in getForecast(index).list">
                 <template v-if="forecast.dt_txt.includes('00:00:00')">
-                  <a href="#" class="list-group-item list-group-item-action" :key="index">
+                  <a href="#" class="list-group-item list-group-item-action" :key="forecast.id">
                     <div class="item-image">
                       <img
                         :src="'http://openweathermap.org/img/w/' + forecast.weather[0].icon + '.png'"
