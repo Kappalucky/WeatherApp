@@ -439,9 +439,6 @@ export default {
     return {
       unit: "F",
       windUnit: "mph",
-      name: "Shuzenji",
-      id: 5368361,
-      zip: 78626,
       moment
     };
   },
