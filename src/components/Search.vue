@@ -60,7 +60,10 @@ export default {
         } else {
           this.error.status = false;
           this.error.value = "";
-          this.$store.dispatch("getWeatherByZip", this.inputValue.value);
+          this.$store.dispatch(
+            "getWeatherByZip",
+            Number(this.inputValue.value)
+          );
         }
       } else {
         this.error.status = true;
@@ -70,7 +73,7 @@ export default {
     validate(value) {
       if (
         this.inputValue.value === "" ||
-        this.inputValue.value < 2 ||
+        this.inputValue.value.length < 2 ||
         this.inputValue.value === undefined
       ) {
         this.inputValue.valid = false;
@@ -78,8 +81,11 @@ export default {
         this.error.value = "Please enter a Location.";
       } else {
         this.inputValue.zip = this.isZip(value);
-        this.error.status = false;
-        this.error.value = "";
+        if (this.inputValue.zip === true) {
+          this.inputValue.valid = true;
+          this.error.status = false;
+          this.error.value = "";
+        }
       }
     },
     isZip(value) {

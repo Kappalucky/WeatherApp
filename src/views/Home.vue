@@ -64,7 +64,7 @@ export default {
     }
   },
   watch: {
-    getWeather() {
+    getWeather(newValue) {
       if (this.$store.state.weatherCard) {
         this.$router.push("/dashboard");
       }
