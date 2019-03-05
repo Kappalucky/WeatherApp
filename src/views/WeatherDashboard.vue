@@ -1,143 +1,155 @@
 <template>
   <div>
-    <!--<Navbar/>-->
-    <section class="navHold">Test</section>
-    <section class="container-fluid mt-2">
-      <div class="row">
-        <div class="col">
-          <Search/>
-        </div>
-      </div>
-    </section>
-    <br>
-    <section class="container-fluid">
-      <h1>Dashboard</h1>
-      <div class="row">
-        <section
-          class="col-xs weatherCard"
-          v-for="(weatherCard, index) in getWeatherCards"
-          :key="index"
-        >
-          <div class="row">
-            <aside class="col-md weatherCard-tempDetails">
-              <div class="tempDetails-location">{{weatherCard.name}}</div>
-              <div class="tempDetails-currentTemp">
-                <div class="currentTemp-image">
-                  <img
-                    :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
-                  >
-                </div>
-                <div class="currentTemp-temp">
-                  {{weatherCard.main.temp}}
-                  <span>°{{unit}}</span>
-                </div>
-              </div>
-              <div class="tempDetails-weather">{{weatherCard.weather[0].description}}</div>
-              <div
-                class="tempDetails-date"
-              >{{moment.unix(weatherCard.dt).utc().format("dddd, MMMM Do")}}</div>
-              <br>
-              <div class="tempDetails-stats">
-                <div class="stats">
-                  <div class="stats-wind">
-                    <div class="wind-image">
-                      <i class="fas fa-wind"></i>
-                    </div>
-                    <div class="wind-stat">
-                      {{weatherCard.wind.speed}}
-                      <span>{{windUnit}}</span>
-                    </div>
-                  </div>
-                  <div class="stats-humidity">
-                    <div class="humidity-image">
-                      <img src="@/assets/img/humidity_icon.png">
-                    </div>
-                    <div class="humidity-stat">
-                      {{weatherCard.main.humidity}}
-                      <span>%</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="stats-space"></div>
-                <div class="stats-tempRange">
-                  <div class="tempRange-high">
-                    <div class="high-image">
-                      <i class="fas fa-arrow-up"></i>
-                    </div>
-                    <div class="high-stat">
-                      {{weatherCard.main.temp_max}}
-                      <span>°{{unit}}</span>
-                    </div>
-                  </div>
-                  <div class="tempRange-low">
-                    <div class="low-image">
-                      <i class="fas fa-arrow-down"></i>
-                    </div>
-                    <div class="low-stat">
-                      {{weatherCard.main.temp_min}}
-                      <span>°{{unit}}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </aside>
-            <aside class="col-md weatherCard-forecast list-group" v-if="getWeatherForecast.length">
-              <template v-for="forecast in getForecast(index).list">
-                <template v-if="forecast.dt_txt.includes('00:00:00')">
-                  <a href="#" class="list-group-item list-group-item-action" :key="forecast.id">
-                    <div class="item-image">
-                      <img
-                        :src="'http://openweathermap.org/img/w/' + forecast.weather[0].icon + '.png'"
-                      >
-                    </div>
-                    <div class="item-date">{{moment.unix(forecast.dt).utc().format("dddd")}}</div>
-                    <div class="item-temperatures">
-                      <div class="temperatures-high">
-                        <span class="high-image">
-                          <i class="fas fa-arrow-up"></i>
-                        </span>
-                        <span class="high-temp">
-                          {{forecast.main.temp_max}}
-                          <span>°{{unit}}</span>
-                        </span>
-                      </div>
-                      <div class="temperatures-low">
-                        <span class="low-image">
-                          <i class="fas fa-arrow-down"></i>
-                        </span>
-                        <span class="low-temp">
-                          {{forecast.main.temp_min}}
-                          <span>°{{unit}}</span>
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                </template>
-              </template>
-            </aside>
+    <header>
+      <!--<Navbar/>-->
+      <section class="navHold">Test</section>
+    </header>
+    <main>
+      <section class="container-fluid search">
+        <div class="row">
+          <div class="col">
+            <Search/>
           </div>
-        </section>
-      </div>
-    </section>
-    <section>
-      <div slot="footer">
-        <!--<router-link
+        </div>
+      </section>
+      <br>
+      <section class="container-fluid">
+        <div class="row">
+          <section
+            class="col-xs weatherCard"
+            v-for="(weatherCard, index) in getWeatherCards"
+            :key="index"
+          >
+            <div class="row">
+              <aside class="col-md weatherCard-tempDetails">
+                <div class="tempDetails-location">{{weatherCard.name}}</div>
+                <div class="tempDetails-currentTemp">
+                  <div class="currentTemp-image">
+                    <img
+                      :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'"
+                    >
+                  </div>
+                  <div class="currentTemp-temp">
+                    {{Math.round(convertTemp(weatherCard.main.temp))}}
+                    <span>°{{getUnit.temp}}</span>
+                  </div>
+                </div>
+                <div class="tempDetails-weather">{{weatherCard.weather[0].description}}</div>
+                <div
+                  class="tempDetails-date"
+                >{{moment.unix(weatherCard.dt).utc().format("dddd, MMMM Do")}}</div>
+                <br>
+                <div class="tempDetails-stats">
+                  <div class="stats">
+                    <div class="stats-wind">
+                      <div class="wind-image">
+                        <i class="fas fa-wind"></i>
+                      </div>
+                      <div class="wind-stat">
+                        {{Math.round(weatherCard.wind.speed)}}
+                        <span>{{getUnit.speed}}</span>
+                      </div>
+                    </div>
+                    <div class="stats-humidity">
+                      <div class="humidity-image">
+                        <img src="@/assets/img/humidity_icon.png">
+                      </div>
+                      <div class="humidity-stat">
+                        {{Math.round(weatherCard.main.humidity)}}
+                        <span>%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="stats-space"></div>
+                  <div class="stats-tempRange">
+                    <div class="tempRange-high">
+                      <div class="high-image">
+                        <i class="fas fa-arrow-up"></i>
+                      </div>
+                      <div class="high-stat">
+                        {{Math.round(convertTemp(weatherCard.main.temp_max))}}
+                        <span>°{{getUnit.temp}}</span>
+                      </div>
+                    </div>
+                    <div class="tempRange-low">
+                      <div class="low-image">
+                        <i class="fas fa-arrow-down"></i>
+                      </div>
+                      <div class="low-stat">
+                        {{Math.round(convertTemp(weatherCard.main.temp_min))}}
+                        <span>°{{getUnit.temp}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <aside
+                class="col-md weatherCard-forecast list-group"
+                v-if="getWeatherForecast.length"
+              >
+                <template v-for="forecast in getForecast(index).list">
+                  <template v-if="forecast.dt_txt.includes('00:00:00')">
+                    <a href="#" class="list-group-item list-group-item-action" :key="forecast.id">
+                      <div class="item-image">
+                        <img
+                          :src="'http://openweathermap.org/img/w/' + forecast.weather[0].icon + '.png'"
+                        >
+                      </div>
+                      <div class="item-date">{{moment.unix(forecast.dt).utc().format("dddd")}}</div>
+                      <div class="item-temperatures">
+                        <div class="temperatures-high">
+                          <span class="high-image">
+                            <i class="fas fa-arrow-up"></i>
+                          </span>
+                          <span class="high-temp">
+                            {{Math.round(convertTemp(forecast.main.temp_max))}}
+                            <span>°{{getUnit.temp}}</span>
+                          </span>
+                        </div>
+                        <div class="temperatures-low">
+                          <span class="low-image">
+                            <i class="fas fa-arrow-down"></i>
+                          </span>
+                          <span class="low-temp">
+                            {{Math.round(convertTemp(forecast.main.temp_min))}}
+                            <span>°{{getUnit.temp}}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </template>
+                </template>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section>
+        <div slot="footer">
+          <!--<router-link
           :to="{ name: 'City', params: { id: weatherDataNow.id, data: weatherDataNow } }"
         >
           <button type="button" class="btn btn-secondary">Forecast</button>
-        </router-link>-->
-        <router-link :to="{ path: 'Locations' }">
-          <button type="button" class="btn btn-primary">Full Details</button>
-        </router-link>
-      </div>
-    </section>
-    <!--<Footer/>-->
+          </router-link>-->
+          <router-link :to="{ path: 'Locations' }">
+            <button type="button" class="btn btn-primary">Full Details</button>
+          </router-link>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <!--<Footer/>-->
+      <section class="navHold">Test</section>
+    </footer>
   </div>
 </template>
 
 <style>
 .navHold {
   background-color: grey;
+}
+.search {
+  margin-top: 2rem;
 }
 .row {
   margin-left: 0;
@@ -329,8 +341,6 @@ export default {
   },
   data() {
     return {
-      unit: "F",
-      windUnit: "mph",
       moment
     };
   },
@@ -346,8 +356,26 @@ export default {
     },
     getWeatherForecast() {
       return this.$store.state.weatherForecast;
+    },
+    getUnit() {
+      return this.$store.state.unit;
     }
   },
-  methods: {}
+  methods: {
+    convertTemp(temp) {
+      if (this.getUnit.temp === "F") {
+        return (temp * (9 / 5) - 459.67).toFixed(0);
+      }
+      if (this.getUnit.temp === "C") {
+        return (temp - 273.15).toFixed(0);
+      }
+      return temp.toFixed(0);
+    }
+  }
+  /*watch: {
+    getUnit(newValue) {
+      this.convertTemp(value);
+    }
+  }*/
 };
 </script>

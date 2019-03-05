@@ -89,15 +89,6 @@ export default {
     },
     isZip(value) {
       return zipRegExp.test(value);
-    },
-    convertTemp(temp) {
-      if (this.unitStatus.temp === "F") {
-        return (temp * (9 / 5) - 459.67).toFixed(0);
-      }
-      if (this.unitStatus.temp === "C") {
-        return (temp - 273.15).toFixed(0);
-      }
-      return temp.toFixed(0);
     }
   }
 };

@@ -6,12 +6,16 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    unitStatus: 'F',
-    weatherCard: [],
-    weatherForecast: [],
+    unit: {
+      speed: 'mph',
+      temp: 'F',
+    },
+    weatherCard: [], // Max 5
+    weatherForecast: [], // Max 5
     errors: {},
   },
   mutations: {
+    // Weather Data
     ADD_WEATHER_CARD(state, payload) {
       if (state.weatherCard.length < 5) {
         this.dispatch('getForecast', payload.id);
@@ -23,12 +27,17 @@ const store = new Vuex.Store({
     ADD_FORECAST(state, payload) {
       state.weatherForecast.unshift(payload);
     },
+    // End Weather Data
+
+    // Errors
     CLEAR_ERROR(state) {
       state.errors = {};
     },
     ADD_ERROR(state, payload) {
       state.errors = payload;
     },
+    // End Errors
+
     // Old Data Below
     ADD_CITY: (state, payload) => {
       const newCity = {
