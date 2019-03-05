@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     ADD_WEATHER_CARD(state, payload) {
       if (state.weatherCard.length < 5) {
         this.dispatch('getForecast', payload.id);
-        state.weatherCard.push(payload);
+        state.weatherCard.unshift(payload);
       } else {
         state.errors.weatherCard = "You've reached the max amount of cards you can have";
       }
@@ -127,7 +127,11 @@ const store = new Vuex.Store({
       }
     },
   },
-  getters: {},
+  getters: {
+    forecastById: state => id => state.weatherForecast[id],
+    forecastByDate: state => id =>
+      state.weatherForecast[id].list.forEach(item => item.dt_txt.includes('00:00:00')),
+  },
 });
 
 export default store;
