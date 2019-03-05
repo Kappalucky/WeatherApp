@@ -1,9 +1,6 @@
 <template>
   <div>
-    <header>
-      <!--<Navbar/>-->
-      <section class="navHold">Test</section>
-    </header>
+    <Navbar/>
     <main>
       <section class="container-fluid search">
         <div class="row">
@@ -137,10 +134,7 @@
         </div>
       </section>
     </main>
-    <footer>
-      <!--<Footer/>-->
-      <section class="navHold">Test</section>
-    </footer>
+    <Footer/>
   </div>
 </template>
 
@@ -329,15 +323,17 @@
 
 <script>
 import WeatherService from "@/services/WeatherService";
+import Navbar from "@/components/Navbar.vue";
 import Search from "@/components/Search.vue";
+import Footer from "@/components/Footer.vue";
 import moment from "moment";
 
 export default {
   name: "WeatherDashboard",
   components: {
-    Search
-    // Navbar,
-    // Footer
+    Search,
+    Navbar,
+    Footer
   },
   data() {
     return {
