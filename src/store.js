@@ -27,6 +27,15 @@ const store = new Vuex.Store({
     ADD_FORECAST(state, payload) {
       state.weatherForecast.unshift(payload);
     },
+    CHANGE_TEMP(state, payload) {
+      if (payload === 'F') {
+        state.unit.speed = 'mph';
+        state.unit.temp = 'F';
+      } else {
+        state.unit.speed = 'km/h';
+        state.unit.temp = 'C';
+      }
+    },
     // End Weather Data
 
     // Errors
@@ -136,6 +145,12 @@ const store = new Vuex.Store({
         console.log(error);
         commit('ADD_ERROR', error);
       }
+    },
+    temperatureChange({ commit }, params) {
+      commit('CHANGE_TEMP', params);
+    },
+    removeCard({ commit }, params) {
+      // holder
     },
   },
   getters: {
