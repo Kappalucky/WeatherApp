@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import router from './router';
 import WeatherService from '@/services/WeatherService';
 
 Vue.use(Vuex);
@@ -22,6 +23,18 @@ const store = new Vuex.Store({
         state.weatherCard.unshift(payload);
       } else {
         state.errors.weatherCard = "You've reached the max amount of cards you can have";
+      }
+    },
+    REMOVE_WEATHER_CARD(state, index) {
+      if (state.weatherCard.length === 5) {
+        state.errors = {};
+      }
+
+      state.weatherCard.splice(index, 1);
+      state.weatherForecast.splice(index, 1);
+
+      if (state.weatherCard.length === 0) {
+        router.push('/');
       }
     },
     ADD_FORECAST(state, payload) {
@@ -149,8 +162,8 @@ const store = new Vuex.Store({
     temperatureChange({ commit }, params) {
       commit('CHANGE_TEMP', params);
     },
-    removeCard({ commit }, params) {
-      // holder
+    removeCard({ commit }, { index }) {
+      commit('REMOVE_WEATHER_CARD', index);
     },
   },
   getters: {

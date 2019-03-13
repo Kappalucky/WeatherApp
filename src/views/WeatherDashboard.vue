@@ -30,7 +30,7 @@
 					>
 						<div class="row">
 							<aside class="col-md weatherCard-tempDetails">
-								<div class="close" @click="removeCard()">X</div>
+								<div class="close" @click="removeCard(index)">X</div>
 								<div class="tempDetails-location">{{weatherCard.name}}</div>
 								<div class="tempDetails-currentTemp">
 									<div class="currentTemp-image">
@@ -414,8 +414,9 @@ export default {
 		searchLocation() {
 			this.$refs.search.submit();
 		},
-		removeCard() {
-			this.dispatch("removeCard");
+		removeCard(index) {
+			console.log(index);
+			this.$store.dispatch("removeCard", { index });
 		}
 	}
 };
