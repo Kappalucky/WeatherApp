@@ -124,18 +124,6 @@
 					</section>
 				</div>
 			</section>
-			<!--<section class="links">
-				<div>
-					<router-link
-          :to="{ name: 'City', params: { id: weatherDataNow.id, data: weatherDataNow } }"
-        >
-          <button type="button" class="btn btn-secondary">Forecast</button>
-					</router-link>
-					<router-link :to="{ path: 'Locations' }">
-						<button type="button" class="btn btn-primary">Full Details</button>
-					</router-link>
-				</div>
-			</section>-->
 		</main>
 		<br>
 		<app-footer/>
@@ -158,9 +146,6 @@
 }
 .search {
 	margin-top: 5rem;
-}
-.links {
-	margin-bottom: 1em;
 }
 .searchContainer {
 	display: flex;
@@ -415,7 +400,6 @@ export default {
 			this.$refs.search.submit();
 		},
 		removeCard(index) {
-			console.log(index);
 			this.$store.dispatch("removeCard", { index });
 		}
 	}

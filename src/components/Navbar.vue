@@ -1,7 +1,7 @@
 <template>
 	<header id="app-header">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-			<a class="navbar-brand" href="/">{{ name }}</a>
+			<a class="navbar-brand" style="font-family: 'Permanent Marker'" href="/">{{ name }}</a>
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -25,10 +25,9 @@
 							</a>
 						</li>
 					</template>-->
-					<!--<li class="nav-item dropdown">
+					<!--<li class="nav-item dropdown" v-if="getForecast.length">
 						<a
 							class="nav-link dropdown-toggle"
-							href="#"
 							id="navbarDropdown"
 							role="button"
 							data-toggle="dropdown"
@@ -37,18 +36,22 @@
 							@click="dropdown = !dropdown"
 						>Forecast</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown" :class="{ display: dropdown }">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Something else here</a>
+							<template v-for="(forecast, index) in getForecast">
+								<router-link
+									class="dropdown-item"
+									tag="a"
+									:to="{ name: 'City', params: { id: forecast.city.id} }"
+									:key="index"
+								>{{forecast.city.name}}</router-link>
+							</template>
 						</div>
 					</li>-->
 				</ul>
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-secondary" @click="changeUnit('C')" :class="{active: optionC}">
+					<label id="navbutton" class="btn" @click="changeUnit('C')" :class="{active: optionC}">
 						<input type="radio" name="options" id="option1" autocomplete="off" checked> C
 					</label>
-					<label class="btn btn-secondary" @click="changeUnit('F')" :class="{active: optionF}">
+					<label id="navbutton" class="btn" @click="changeUnit('F')" :class="{active: optionF}">
 						<input type="radio" name="options" id="option2" autocomplete="off"> F
 					</label>
 				</div>
@@ -75,6 +78,11 @@ export default {
 			currentRoute: false
 		};
 	},
+	computed: {
+		getForecast() {
+			return this.$store.state.weatherForecast;
+		}
+	},
 	methods: {
 		changeUnit(unit) {
 			if (unit === "C") {
@@ -88,15 +96,18 @@ export default {
 		}
 	},
 	created() {
-		if (this.$route.path === "/dashboard") {
+		/*if (this.$route.path === "/dashboard") {
 			this.currentRoute = true;
 		}
-		console.log(this.$route.path);
+		console.log(this.$route.path);*/
 	}
 };
 </script>
 
 <style scoped>
+#navbutton {
+	background-color: burlywood;
+}
 .display {
 	display: block;
 }

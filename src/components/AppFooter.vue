@@ -1,7 +1,11 @@
 <template>
 	<footer>
 		<nav class="navbar fixed-bottom navbar-light bg-light">
-			<a class="navbar-brand" href="https://kappalucky.github.io">
+			<a
+				class="navbar-brand"
+				style="font-family: 'Permanent Marker'"
+				href="https://kappalucky.github.io"
+			>
 				<p>&copy; {{new Date().getFullYear()}} Shaquille John-Foster</p>
 			</a>
 		</nav>
