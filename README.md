@@ -1,11 +1,15 @@
-# Kweather-app
+# Kweather
 
-> A General purpose weather app built with Vue (Vuex) + Firebase (eventually)
-> V1 Currently hosted at https://kweather-app.herokuapp.com
+A General purpose weather app built with Vue.
+
+> View project at https://kappalucky.github.io/WeatherApp/
 
 ## Build Setup
 
 ```bash
+# clone repo
+git clone git@github.com:Kappalucky/WeatherApp.git
+
 # install depedencies
 npm install
 
@@ -16,30 +20,14 @@ npm run serve
 npm run build
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Basic Details
 
-## Implemented so far
+Currently the app makes use of two public API's (listed below)
 
-- Currently the app has the main page which calls 2 API's. One for the random pictures [majority should be of the sky] and the other for weather data.
+**[Unsplash](https://unsplash.com)** -
 
-  **Unsplash.com** -
+- Dynamically add background photos based on weather. Ex: 'Cloudy' calls for images with gloomy weather
 
-  - Will be adding photos based on weather
+**[OpenWeatherAPI](https://kappalucky.github.io/WeatherApp/)** -
 
-  **OpenWeatherAPI**
-
-  - All weather data is pulled from the API (...when it wants to play nicely)
-
-## In the works
-
-- Firebase sole purpose is to save user data from Vuex to eventually be used for a session based experience '#Cookies!!'
-- Firebase will also be used to serve JSON data that holds the full name, location, population, and other details about cities in the effort in making the search more user friendly, interactive and accurate.
-- Styling takes forever but being that API's are fully configured...with a bit of restructuring on the endpoints and file structure.
-- Map API's will need to be implemented as well as chart system.
-
-## Updates
-
-- Updated Vue CLI to 3.0 and merged file system over into new master branch
-- In the process of adding views and adding old pages into components
-- After, will be changing the entire style and working with Material Bootstrap rather than a npm bootstrap package
-- Error with function calls on Heroku, switching to Github pages at V2
+- All data on selected locations current weather

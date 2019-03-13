@@ -5,11 +5,12 @@
 </template>
 
 <style>
-@import './assets/css/animate.css';
-@import './assets/css/mdb.min.css';
-@import './assets/css/bootstrap.min.css';
-@import 'http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-@import 'https://fonts.googleapis.com/css?family=Arima+Madurai:100|Nixie+One|Scope+One';
+@import "./assets/css/animate.css";
+@import "./assets/css/mdb.min.css";
+@import "./assets/css/bootstrap.min.css";
+@import "https://use.fontawesome.com/releases/v5.7.2/css/all.css";
+@import "https://fonts.googleapis.com/css?family=Arima+Madurai:100|Nixie+One|Scope+One|Raleway|Roboto";
+@import "https://fonts.googleapis.com/css?family=Permanent+Marker";
 
 html,
 body {
