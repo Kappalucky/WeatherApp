@@ -9,26 +9,26 @@
 		"deploy": "npm run build && cd dist && git init && git add -A && git commit -m 'deploy' && git push -f git@github.com:Kappalucky/WeatherApp.git gh-pages"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^1.2.2",
-		"@fortawesome/free-solid-svg-icons": "^5.2.0",
-		"@fortawesome/vue-fontawesome": "^0.1.1",
+		"@fortawesome/fontawesome-svg-core": "^1.2.15",
+		"@fortawesome/free-solid-svg-icons": "^5.7.2",
+		"@fortawesome/vue-fontawesome": "^0.1.5",
 		"axios": "^0.18.0",
 		"exit": "^0.1.2",
-		"moment": "^2.22.2",
-		"npm": "^6.8.0",
-		"register-service-worker": "^1.0.0",
-		"vue": "^2.5.16",
-		"vue-router": "^3.0.1",
-		"vuex": "^3.0.1"
+		"moment": "^2.24.0",
+		"npm": "^6.9.0",
+		"register-service-worker": "^1.6.2",
+		"vue": "^2.6.9",
+		"vue-router": "^3.0.2",
+		"vuex": "^3.1.0"
 	},
 	"devDependencies": {
-		"@vue/cli-plugin-babel": "^3.0.0-rc.8",
-		"@vue/cli-plugin-eslint": "^3.0.0-rc.8",
-		"@vue/cli-plugin-pwa": "^3.0.0-rc.8",
-		"@vue/cli-service": "^3.0.0-rc.8",
-		"@vue/eslint-config-airbnb": "^3.0.0-rc.8",
-		"prettier": "^1.14.0",
-		"vue-template-compiler": "^2.5.16"
+		"@vue/cli-plugin-babel": "^3.5.1",
+		"@vue/cli-plugin-eslint": "^3.5.1",
+		"@vue/cli-plugin-pwa": "^3.5.1",
+		"@vue/cli-service": "^3.5.1",
+		"@vue/eslint-config-airbnb": "^3.0.5",
+		"prettier": "^1.16.4",
+		"vue-template-compiler": "^2.6.9"
 	},
 	"eslintConfig": {
 		"root": true,
