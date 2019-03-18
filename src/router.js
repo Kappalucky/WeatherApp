@@ -13,6 +13,10 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '*',
+      redirect: '/',
+    },
+    {
       path: '/',
       name: 'home',
       component: Home,

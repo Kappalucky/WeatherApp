@@ -28,6 +28,6 @@ Currently the app makes use of two public API's (listed below)
 
 - Dynamically add background photos based on weather. Ex: 'Cloudy' calls for images with gloomy weather
 
-**[OpenWeatherAPI](https://kappalucky.github.io/WeatherApp/)** -
+**[OpenWeatherAPI](https://openweathermap.org/)** -
 
 - All data on selected locations current weather
