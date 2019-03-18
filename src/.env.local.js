@@ -1,0 +1,4 @@
+module.exports = {
+	VUE_APP_CLIENT_ID: '88f81e2335d1a4d3ea1815f1f10603ab9b1ada36de51484f4e328d5c94bec9e0',
+	VUE_API_KEY: '6e6d2d2ccd4f746698bca6b482d1507f',
+};
