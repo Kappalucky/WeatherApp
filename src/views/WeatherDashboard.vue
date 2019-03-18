@@ -34,7 +34,21 @@
 								<div class="tempDetails-location">{{weatherCard.name}}</div>
 								<div class="tempDetails-currentTemp">
 									<div class="currentTemp-image">
-										<img :src="'http://openweathermap.org/img/w/' + weatherCard.weather[0].icon + '.png'">
+										<template
+											v-if="(moment.unix(weatherCard.dt).format('k') >= moment.unix(weatherCard.sys.sunrise).format('k'))
+											|| (moment.unix(weatherCard.dt).format('k') < moment.unix(weatherCard.sys.sunset).format('k'))"
+										>
+											<i :class="['wi wi-owm-day-' + weatherCard.cod]"></i>
+										</template>
+										<template
+											v-else-if="(moment.unix(weatherCard.dt).format('k') >= moment.unix(weatherCard.sys.sunset).format('k'))
+											&& (moment.unix(weatherCard.dt).format('k') <= 24)"
+										>
+											<i :class="['wi wi-owm-night-' + weatherCard.cod]"></i>
+										</template>
+										<template v-else>
+											<i :class="['wi wi-owm-' + weatherCard.cod]"></i>
+										</template>
 									</div>
 									<div class="currentTemp-temp">
 										{{Math.round(convertTemp(weatherCard.main.temp))}}
@@ -200,7 +214,8 @@
 }
 .currentTemp-image {
 	height: 100%;
-	margin-right: 1px;
+	margin-right: 8px;
+	font-size: 3rem;
 }
 .currentTemp-image > img {
 	height: 100px;
