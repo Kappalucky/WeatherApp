@@ -165,7 +165,9 @@ export default {
 	padding: 0.84rem 2.14rem;
 	font-size: 0.81rem;
 }
-
+#buttons {
+	margin-bottom: 1rem;
+}
 .btn-outline-primary {
 	color: white !important;
 }

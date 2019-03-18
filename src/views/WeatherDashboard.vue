@@ -56,7 +56,7 @@
 									</div>
 								</div>
 								<div class="tempDetails-weather">{{weatherCard.weather[0].description}}</div>
-								<div class="tempDetails-date">{{moment.unix(weatherCard.dt).utc().format("dddd, MMMM Do")}}</div>
+								<div class="tempDetails-date">{{moment.unix(weatherCard.dt).format("dddd, MMMM Do")}}</div>
 								<br>
 								<div class="tempDetails-stats">
 									<div class="stats">
@@ -105,11 +105,27 @@
 							<aside class="col-md weatherCard-forecast list-group" v-if="getWeatherForecast.length">
 								<template v-for="forecast in getForecast(index).list">
 									<template v-if="forecast.dt_txt.includes('00:00:00')">
-										<a href="#" class="list-group-item list-group-item-action" :key="forecast.id">
+										<!--<a
+										<:href="'/city/' + weatherCard.id"-->
+										<a class="list-group-item list-group-item-action" :key="forecast.id">
 											<div class="item-image">
-												<img :src="'http://openweathermap.org/img/w/' + forecast.weather[0].icon + '.png'">
+												<template
+													v-if="(moment.unix(forecast.dt).format('k') >= moment.unix(weatherCard.sys.sunrise).format('k'))
+											|| (moment.unix(forecast.dt).format('k') < moment.unix(weatherCard.sys.sunset).format('k'))"
+												>
+													<i :class="['wi wi-owm-day-' + forecast.weather[0].id]"></i>
+												</template>
+												<template
+													v-else-if="(moment.unix(forecast.dt).format('k') >= moment.unix(weatherCard.sys.sunset).format('k'))
+											&& (moment.unix(forecast.dt).format('k') <= 24)"
+												>
+													<i :class="['wi wi-owm-night-' + forecast.weather[0].id]"></i>
+												</template>
+												<template v-else>
+													<i :class="['wi wi-owm-' + forecast.weather[0].id]"></i>
+												</template>
 											</div>
-											<div class="item-date">{{moment.unix(forecast.dt).utc().format("dddd")}}</div>
+											<div class="item-date">{{moment.unix(forecast.dt).format("dddd")}}</div>
 											<div class="item-temperatures">
 												<div class="temperatures-high">
 													<span class="high-image">
@@ -334,6 +350,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
+.item-image {
+	font-size: 2rem;
+	color: rgb(27, 27, 27);
 }
 .item-image img {
 	height: 50px;
