@@ -6,7 +6,7 @@
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
-		"deploy": "npm run build && cd dist && git init && git add -A && git commit -m 'deploy' && git push -f git@github.com:Kappalucky/WeatherApp.git gh-pages"
+		"deploy": "npm run build && cd dist && git init && git checkout -b gh-pages && git add -A && git commit -m 'deploy' && git push -f git@github.com:Kappalucky/WeatherApp.git gh-pages"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.15",
