@@ -16,5 +16,6 @@
 html,
 body {
 	height: 100vh;
+	background-color: bisque;
 }
 </style>

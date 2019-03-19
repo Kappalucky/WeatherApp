@@ -1,5 +1,5 @@
 <template>
-	<div class="container my-5">
+	<div class="container my-5 dashboard">
 		<Navbar/>
 		<main>
 			<section class="container-fluid search">
@@ -161,6 +161,9 @@
 </template>
 
 <style>
+.dashboard {
+	background-color: bisque;
+}
 .close {
 	float: right;
 	margin: 5px;
@@ -201,6 +204,7 @@
 	border: 1px solid rgba(197, 196, 196, 0.88);
 	border-radius: 15px;
 	overflow: hidden;
+	background-color: white;
 	font-family: "Raleway", "Roboto", sans-serif;
 	width: 100%;
 	margin: 10px 0;
